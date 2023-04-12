@@ -939,35 +939,33 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\madsg\\.nuget\\packages\\": {}
+    "/Users/christianlauridsen/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\madsg\\Uni\\Functional_Programming\\Project\\Scrabble\\ScrabbleTemplate\\ScrabbleTemplate\\ScrabbleTemplate.fsproj",
+      "projectUniqueName": "/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleTemplate/ScrabbleTemplate.fsproj",
       "projectName": "ScrabbleTemplate",
-      "projectPath": "C:\\Users\\madsg\\Uni\\Functional_Programming\\Project\\Scrabble\\ScrabbleTemplate\\ScrabbleTemplate\\ScrabbleTemplate.fsproj",
-      "packagesPath": "C:\\Users\\madsg\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\madsg\\Uni\\Functional_Programming\\Project\\Scrabble\\ScrabbleTemplate\\ScrabbleTemplate\\obj\\",
+      "projectPath": "/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleTemplate/ScrabbleTemplate.fsproj",
+      "packagesPath": "/Users/christianlauridsen/.nuget/packages/",
+      "outputPath": "/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleTemplate/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\madsg\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/christianlauridsen/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\sdk\\7.0.104\\FSharp\\library-packs": {},
+        "/usr/local/share/dotnet/sdk/7.0.100/FSharp/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\madsg\\Uni\\Functional_Programming\\Project\\Scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj": {
-              "projectPath": "C:\\Users\\madsg\\Uni\\Functional_Programming\\Project\\Scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj"
+            "/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj": {
+              "projectPath": "/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj"
             }
           }
         }
@@ -1010,7 +1008,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.104\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
       }
     }
   }
