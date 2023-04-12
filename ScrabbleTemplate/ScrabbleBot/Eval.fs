@@ -3,7 +3,8 @@
 module internal Eval
 
     open StateMonad
-    open Types
+    open ScrabbleUtil
+
 
     (* Code for testing *)
     let hello = [('H', 4);('E', 1);('L', 1);('L', 1);('O', 1)]
@@ -140,18 +141,25 @@ module internal Eval
 
 (* Part 4 (Optional) *) 
 
+    type word   = (char * int) list
+    type squareFun = word -> int -> int -> Result<int, Error>
+    type square = Map<int, squareFun>
+    
+    type boardFun2 = coord -> Result<square option, Error>
+        
+    type board = {
+        center        : coord
+        defaultSquare : square
+        squares       : boardFun2
+    }
+
+
     let stmntToSquareFun stm = failwith "Not implemented"
 
     let stmntToBoardFun stm m = failwith "Not implemented"
 
     type squareStmnt = Map<int, stmnt>
     let stmntsToSquare stms = failwith "Not implemented"
-
-    type board = {
-        center        : coord
-        defaultSquare : square
-        squares       : boardFun
-    }
 
     let mkBoard c defaultSq boardStmnt ids = failwith "Not implemented"
     
