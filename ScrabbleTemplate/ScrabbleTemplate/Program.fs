@@ -1,4 +1,4 @@
-﻿// Learn more about F# at http://fsharp.org
+// Learn more about F# at http://fsharp.org
 
 let time f =
     let start = System.DateTime.Now

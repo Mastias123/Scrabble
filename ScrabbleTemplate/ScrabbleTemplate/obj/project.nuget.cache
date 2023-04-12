@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IDFsZ2Hz5GWz6zr0A7AnZHhZ8qlgW0ZQ2xKTUGEuBrjm6X3znpv+gi3VnWNgNeTCPSCkj7diG2sRgKa6VsU6Sg==",
+  "dgSpecHash": "fGJieRtMo4hXrStBCKth7V2+UaH6yOaf2Rlzo1Q5aAkR/M5AEJ1n4M/KyyHLLmMdhhstgf39f4H3XengGjeEDg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Mathias\\Desktop\\ITU_mappe\\4.th_semester\\Functional Programming\\Code\\ScrabbleTemplate\\ScrabbleTemplate\\ScrabbleTemplate.fsproj",
+  "projectFilePath": "C:\\Users\\Mathias\\Desktop\\ITU_mappe\\4.th_semester\\Functional Programming\\Code\\Scrabble\\ScrabbleTemplate\\ScrabbleTemplate\\ScrabbleTemplate.fsproj",
   "expectedPackageFiles": [
     "C:\\Users\\Mathias\\.nuget\\packages\\fparsec\\1.1.1\\fparsec.1.1.1.nupkg.sha512",
     "C:\\Users\\Mathias\\.nuget\\packages\\fsharp.core\\7.0.200\\fsharp.core.7.0.200.nupkg.sha512",

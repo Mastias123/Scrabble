@@ -1,4 +1,4 @@
-﻿module internal StateMonad
+module internal StateMonad
 
     type SM<'a>
     type State

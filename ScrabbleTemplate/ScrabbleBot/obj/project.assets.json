@@ -159,11 +159,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Mathias\\Desktop\\ITU_mappe\\4.th_semester\\Functional Programming\\Code\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj",
+      "projectUniqueName": "C:\\Users\\Mathias\\Desktop\\ITU_mappe\\4.th_semester\\Functional Programming\\Code\\Scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj",
       "projectName": "ScrabbleBot",
-      "projectPath": "c:\\Users\\Mathias\\Desktop\\ITU_mappe\\4.th_semester\\Functional Programming\\Code\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj",
+      "projectPath": "C:\\Users\\Mathias\\Desktop\\ITU_mappe\\4.th_semester\\Functional Programming\\Code\\Scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj",
       "packagesPath": "C:\\Users\\Mathias\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Mathias\\Desktop\\ITU_mappe\\4.th_semester\\Functional Programming\\Code\\ScrabbleTemplate\\ScrabbleBot\\obj\\",
+      "outputPath": "C:\\Users\\Mathias\\Desktop\\ITU_mappe\\4.th_semester\\Functional Programming\\Code\\Scrabble\\ScrabbleTemplate\\ScrabbleBot\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Mathias\\AppData\\Roaming\\NuGet\\NuGet.Config",
