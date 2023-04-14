@@ -1,4 +1,4 @@
-namespace YourClientName
+namespace NoStepFunction
 
 open ScrabbleUtil
 open ScrabbleUtil.ServerCommunication
@@ -46,14 +46,16 @@ module State =
         dict          : ScrabbleUtil.Dictionary.Dict
         playerNumber  : uint32
         hand          : MultiSet.MultiSet<uint32>
+        myTurn        : bool
     }
 
-    let mkState b d pn h = {board = b; dict = d;  playerNumber = pn; hand = h }
+    let mkState b d pn h my = {board = b; dict = d;  playerNumber = pn; hand = h ; myTurn = my}
 
     let board st         = st.board
     let dict st          = st.dict
     let playerNumber st  = st.playerNumber
     let hand st          = st.hand
+    let myTurn st = st.myTurn
 
 module Scrabble =
     open System.Threading
@@ -61,36 +63,55 @@ module Scrabble =
     let playGame cstream pieces (st : State.state) =
 
         let rec aux (st : State.state) =
-            Print.printHand pieces (State.hand st)
-
+            if(st.myTurn) 
+                then 
+                debugPrint("***************Now it's my turn to play**************\n") 
+                Print.printHand pieces (State.hand st)
+                forcePrint "Input move (format '(<x-coordinate> <y-coordinate> <piece id><character><point-value> )*', note the absence of space between the last inputs)\n\n"
+                let input =  System.Console.ReadLine()
+                let move = RegEx.parseMove input
+                debugPrint (sprintf "Player %d -> Server:\n%A\n" (State.playerNumber st) move) // keep the debug lines. They are useful.
+                send cstream (SMPlay move)
+                debugPrint (sprintf "Player %d <- Server:\n%A\n" (State.playerNumber st) move)
+            
+            else debugPrint("---------------It's not my turn to play------------------\n")
+            
             // remove the force print when you move on from manual input (or when you have learnt the format)
-            forcePrint "Input move (format '(<x-coordinate> <y-coordinate> <piece id><character><point-value> )*', note the absence of space between the last inputs)\n\n"
-            let input =  System.Console.ReadLine()
-            let move = RegEx.parseMove input
-
-            debugPrint (sprintf "Player %d -> Server:\n%A\n" (State.playerNumber st) move) // keep the debug lines. They are useful.
-            send cstream (SMPlay move)
-
             let msg = recv cstream
-            debugPrint (sprintf "Player %d <- Server:\n%A\n" (State.playerNumber st) move) // keep the debug lines. They are useful.
-
+           // keep the debug lines. They are useful.
             match msg with
             | RCM (CMPlaySuccess(ms, points, newPieces)) ->
                 (* Successful play by you. Update your state (remove old tiles, add the new ones, change turn, etc) *)
-                let st' = st // This state needs to be updated
+                let st' = State.mkState 
+                                st.board 
+                                st.dict 
+                                st.playerNumber st.hand false
+                debugPrint("!!!!!!!!!!I have played a succesful move!!!!!!!!!!\n") // Th
                 aux st'
+                
             | RCM (CMPlayed (pid, ms, points)) ->
                 (* Successful play by other player. Update your state *)
-                let st' = st // This state needs to be updated
+                let st' = State.mkState st.board st.dict st.playerNumber st.hand true // This state needs to be updated
+                debugPrint("??????????They have played a succesful move????????????\n")
                 aux st'
+                
             | RCM (CMPlayFailed (pid, ms)) ->
                 (* Failed play. Update your state *)
-                let st' = st // This state needs to be updated
-                aux st'
+                if(st.myTurn) 
+                then
+                    let st' = State.mkState st.board st.dict st.playerNumber st.hand true
+                    debugPrint("xxxxxxxxx U have failed a move\n")
+                    aux st'
+
+                else
+                    let st' = State.mkState st.board st.dict st.playerNumber st.hand false
+                    debugPrint "xxxxxxxxxx They have failed a move\n"
+                    aux st'
+
             | RCM (CMGameOver _) -> ()
             | RCM a -> failwith (sprintf "not implmented: %A" a)
             | RGPE err -> printfn "Gameplay Error:\n%A" err; aux st
-
+           
 
         aux st
 
@@ -118,5 +139,5 @@ module Scrabble =
                   
         let handSet = List.fold (fun acc (x, k) -> MultiSet.add x k acc) MultiSet.empty hand
 
-        fun () -> playGame cstream tiles (State.mkState board dict playerNumber handSet)
+        fun () -> playGame cstream tiles (State.mkState board dict playerNumber handSet (playerNumber = playerTurn))
         
