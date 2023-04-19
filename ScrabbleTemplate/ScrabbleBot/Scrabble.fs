@@ -100,7 +100,7 @@ module Scrabble =
                 if(st.myTurn) 
                 then
                     let st' = State.mkState st.board st.dict st.playerNumber st.hand true
-                    debugPrint("xxxxxxxxx U have failed a move\n")
+                    debugPrint("xxxxxxxxx You have failed a move\n")
                     aux st'
 
                 else
