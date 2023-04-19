@@ -1,39 +1,52 @@
-C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\ScrabbleTemplate\ScrabbleBot\bin\Debug\net7.0\ScrabbleBot.deps.json
-C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\ScrabbleTemplate\ScrabbleBot\bin\Debug\net7.0\ScrabbleBot.dll
-C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\ScrabbleTemplate\ScrabbleBot\bin\Debug\net7.0\ScrabbleBot.pdb
-C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\ScrabbleTemplate\ScrabbleBot\bin\Debug\net7.0\ScrabbleUtil.dll
-C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.fsproj.AssemblyReference.cache
-C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.AssemblyInfoInputs.cache
-C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.AssemblyInfo.fs
-C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.fsproj.CoreCompileInputs.cache
-C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.fsproj.CopyComplete
-C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.dll
-C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\refint\ScrabbleBot.dll
-C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.pdb
-C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ref\ScrabbleBot.dll
-c:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net7.0\ScrabbleBot.deps.json
-c:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net7.0\ScrabbleBot.dll
-c:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net7.0\ScrabbleBot.pdb
-c:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net7.0\ScrabbleUtil.dll
-c:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.fsproj.AssemblyReference.cache
-c:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.AssemblyInfoInputs.cache
-c:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.AssemblyInfo.fs
-c:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.fsproj.CoreCompileInputs.cache
-c:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.fsproj.CopyComplete
-c:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.dll
-c:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\refint\ScrabbleBot.dll
-c:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.pdb
-c:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ref\ScrabbleBot.dll
-C:\Users\madsg\Uni\Functional_Programming\Project\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.fsproj.AssemblyReference.cache
-C:\Users\madsg\Uni\Functional_Programming\Project\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.AssemblyInfoInputs.cache
-C:\Users\madsg\Uni\Functional_Programming\Project\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.AssemblyInfo.fs
-C:\Users\madsg\Uni\Functional_Programming\Project\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.fsproj.CoreCompileInputs.cache
-C:\Users\madsg\Uni\Functional_Programming\Project\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.dll
-C:\Users\madsg\Uni\Functional_Programming\Project\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\refint\ScrabbleBot.dll
-C:\Users\madsg\Uni\Functional_Programming\Project\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.pdb
-C:\Users\madsg\Uni\Functional_Programming\Project\Scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net7.0\ScrabbleBot.deps.json
-C:\Users\madsg\Uni\Functional_Programming\Project\Scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net7.0\ScrabbleBot.dll
-C:\Users\madsg\Uni\Functional_Programming\Project\Scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net7.0\ScrabbleBot.pdb
-C:\Users\madsg\Uni\Functional_Programming\Project\Scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net7.0\ScrabbleUtil.dll
-C:\Users\madsg\Uni\Functional_Programming\Project\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.fsproj.CopyComplete
-C:\Users\madsg\Uni\Functional_Programming\Project\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ref\ScrabbleBot.dll
+C:/Users/Mathias/Desktop/ITU_mappe/4.th_semester/Functional Programming/Code/ScrabbleTemplate/ScrabbleBot/bin/Debug/net7.0/ScrabbleBot.deps.json
+C:/Users/Mathias/Desktop/ITU_mappe/4.th_semester/Functional Programming/Code/ScrabbleTemplate/ScrabbleBot/bin/Debug/net7.0/ScrabbleBot.dll
+C:/Users/Mathias/Desktop/ITU_mappe/4.th_semester/Functional Programming/Code/ScrabbleTemplate/ScrabbleBot/bin/Debug/net7.0/ScrabbleBot.pdb
+C:/Users/Mathias/Desktop/ITU_mappe/4.th_semester/Functional Programming/Code/ScrabbleTemplate/ScrabbleBot/bin/Debug/net7.0/ScrabbleUtil.dll
+C:/Users/Mathias/Desktop/ITU_mappe/4.th_semester/Functional Programming/Code/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.fsproj.AssemblyReference.cache
+C:/Users/Mathias/Desktop/ITU_mappe/4.th_semester/Functional Programming/Code/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.AssemblyInfoInputs.cache
+C:/Users/Mathias/Desktop/ITU_mappe/4.th_semester/Functional Programming/Code/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.AssemblyInfo.fs
+C:/Users/Mathias/Desktop/ITU_mappe/4.th_semester/Functional Programming/Code/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.fsproj.CoreCompileInputs.cache
+C:/Users/Mathias/Desktop/ITU_mappe/4.th_semester/Functional Programming/Code/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.fsproj.CopyComplete
+C:/Users/Mathias/Desktop/ITU_mappe/4.th_semester/Functional Programming/Code/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.dll
+C:/Users/Mathias/Desktop/ITU_mappe/4.th_semester/Functional Programming/Code/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/refint/ScrabbleBot.dll
+C:/Users/Mathias/Desktop/ITU_mappe/4.th_semester/Functional Programming/Code/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.pdb
+C:/Users/Mathias/Desktop/ITU_mappe/4.th_semester/Functional Programming/Code/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ref/ScrabbleBot.dll
+C:/Users/madsg/Uni/Functional_Programming/Project/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.fsproj.AssemblyReference.cache
+C:/Users/madsg/Uni/Functional_Programming/Project/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.AssemblyInfoInputs.cache
+C:/Users/madsg/Uni/Functional_Programming/Project/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.AssemblyInfo.fs
+C:/Users/madsg/Uni/Functional_Programming/Project/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.fsproj.CoreCompileInputs.cache
+C:/Users/madsg/Uni/Functional_Programming/Project/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.dll
+C:/Users/madsg/Uni/Functional_Programming/Project/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/refint/ScrabbleBot.dll
+C:/Users/madsg/Uni/Functional_Programming/Project/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.pdb
+C:/Users/madsg/Uni/Functional_Programming/Project/Scrabble/ScrabbleTemplate/ScrabbleBot/bin/Debug/net7.0/ScrabbleBot.deps.json
+C:/Users/madsg/Uni/Functional_Programming/Project/Scrabble/ScrabbleTemplate/ScrabbleBot/bin/Debug/net7.0/ScrabbleBot.dll
+C:/Users/madsg/Uni/Functional_Programming/Project/Scrabble/ScrabbleTemplate/ScrabbleBot/bin/Debug/net7.0/ScrabbleBot.pdb
+C:/Users/madsg/Uni/Functional_Programming/Project/Scrabble/ScrabbleTemplate/ScrabbleBot/bin/Debug/net7.0/ScrabbleUtil.dll
+C:/Users/madsg/Uni/Functional_Programming/Project/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.fsproj.CopyComplete
+C:/Users/madsg/Uni/Functional_Programming/Project/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ref/ScrabbleBot.dll
+/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/bin/Debug/net7.0/ScrabbleBot.deps.json
+/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/bin/Debug/net7.0/ScrabbleBot.dll
+/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/bin/Debug/net7.0/ScrabbleBot.pdb
+/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/bin/Debug/net7.0/ScrabbleUtil.dll
+/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.fsproj.AssemblyReference.cache
+/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.AssemblyInfoInputs.cache
+/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.AssemblyInfo.fs
+/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.fsproj.CoreCompileInputs.cache
+/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.fsproj.CopyComplete
+/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.dll
+/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/refint/ScrabbleBot.dll
+/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ScrabbleBot.pdb
+/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net7.0/ref/ScrabbleBot.dll
+C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net7.0\ScrabbleBot.deps.json
+C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net7.0\ScrabbleBot.dll
+C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net7.0\ScrabbleBot.pdb
+C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net7.0\ScrabbleUtil.dll
+C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.fsproj.AssemblyReference.cache
+C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.AssemblyInfoInputs.cache
+C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.AssemblyInfo.fs
+C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.fsproj.CoreCompileInputs.cache
+C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.fsproj.CopyComplete
+C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.dll
+C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\refint\ScrabbleBot.dll
+C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ScrabbleBot.pdb
+C:\Users\Mathias\Desktop\ITU_mappe\4.th_semester\Functional Programming\Code\Scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net7.0\ref\ScrabbleBot.dll

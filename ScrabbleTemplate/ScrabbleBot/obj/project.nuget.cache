@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "jr5KosDF5u6FgKoeaGpJ+WXl+JKRdHxd5YIxGrt44BhAEvjrHtzKPPGZaPDKX66lpLlC9j2JOWZ/XS5Vuff2iA==",
+  "dgSpecHash": "SlnM9eYHy0w7Vns/WGunTkiE2AzCi3ItPdRl+ZtYSvzFPz+AFFzudRg0aJmUjSI5e2SfFzzA+DJu+UVOWVhmbQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\madsg\\Uni\\Functional_Programming\\Project\\Scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj",
+  "projectFilePath": "C:\\Users\\Mathias\\Desktop\\ITU_mappe\\4.th_semester\\Functional Programming\\Code\\Scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj",
   "expectedPackageFiles": [
-    "C:\\Users\\madsg\\.nuget\\packages\\fparsec\\1.1.1\\fparsec.1.1.1.nupkg.sha512",
-    "C:\\Users\\madsg\\.nuget\\packages\\fsharp.core\\7.0.200\\fsharp.core.7.0.200.nupkg.sha512"
+    "C:\\Users\\Mathias\\.nuget\\packages\\fparsec\\1.1.1\\fparsec.1.1.1.nupkg.sha512",
+    "C:\\Users\\Mathias\\.nuget\\packages\\fsharp.core\\7.0.200\\fsharp.core.7.0.200.nupkg.sha512"
   ],
   "logs": []
 }

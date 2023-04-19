@@ -1,5 +1,6 @@
 // Learn more about F# at http://fsharp.org
 
+
 let time f =
     let start = System.DateTime.Now
     let res = f ()
@@ -18,7 +19,7 @@ let spawnMultiples name dict bot =
 
 [<EntryPoint>]
 let main argv =
-    ScrabbleUtil.DebugPrint.toggleDebugPrint false // Change to false to supress debug output
+    ScrabbleUtil.DebugPrint.toggleDebugPrint true // Change to false to supress debug output
 
     System.Console.BackgroundColor <- System.ConsoleColor.White
     System.Console.ForegroundColor <- System.ConsoleColor.Black
@@ -35,7 +36,7 @@ let main argv =
 //    let board      = ScrabbleUtil.HoleBoard.holeBoard ()
 //    let board      = ScrabbleUtil.InfiniteHoleBoard.infiniteHoleBoard ()
 
-    let words     = readLines "Dictionaries/English.txt"
+    let words     = readLines "ScrabbleTemplate/ScrabbleTemplate/Dictionaries/English.txt"
 
     let handSize   = 7u
     let timeout    = None
@@ -45,17 +46,18 @@ let main argv =
 
     let dictAPI =
         // Uncomment if you have implemented a dictionary. last element None if you have not implemented a GADDAG
-        // Some (Dictionary.empty, Dictionary.insert, Dictionary.step, Some Dictionary.reverse) 
-        None
+        Some (Dictionary.empty, Dictionary.insert, Dictionary.step, None) 
+        //None
         
     // Uncomment this line to call your client
-    // let players    = [("Your name here", YourClientName.Scrabble.startGame)]
     let (dictionary, time) =
         time (fun () -> ScrabbleUtil.Dictionary.mkDict words dictAPI)
+    
+    let players    = [("Oh my Step-function", dictionary, NoStepFunction.Scrabble.startGame); "oxygøgl", dictionary, Oxyphenbutazone.Scrabble.startGame]
 
-    let players = spawnMultiples "OxyphenButazone" dictionary Oxyphenbutazone.Scrabble.startGame 2
-
-
+    // let players = [spawnMultiples "OxyphenButazone" dictionary Oxyphenbutazone.Scrabble.startGame 1; spawnMultiples "NoStepFunction" dictionary NoStepFunction.Scrabble.startGame 1]
+    
+    //last 
     do ScrabbleServer.Comm.startGame 
           board dictionary handSize timeout tiles seed port players
     
