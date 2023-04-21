@@ -48,6 +48,15 @@ module internal MultiSet
 
     let foldBack f (M s as ms) acc = Map.foldBack f s acc
 
+    let ofList lst = List.fold (fun acc elm -> addSingle elm acc) empty lst
+    let toList (M m as ms) = 
+        let rec toList2 a n acc=
+            match n with
+            | 0u -> acc
+            | _ -> toList2 a (n-1u) (a::acc)
+        foldBack toList2 ms List.Empty 
+
+    
 
         
      

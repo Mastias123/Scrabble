@@ -7,6 +7,8 @@ open System.IO
 
 open ScrabbleUtil.DebugPrint
 
+open OurTurn
+
 // The RegEx module is only used to parse human input. It is not used for the final product.
 
 module RegEx =
@@ -47,17 +49,20 @@ module State =
         playerNumber  : uint32
         hand          : MultiSet.MultiSet<uint32>
         myTurn        : bool
+        tiles         : Map<coord , char>
+        //positionAvalible: bool
     }
 
-    let mkState b d pn h my = {board = b; dict = d;  playerNumber = pn; hand = h ; myTurn = my}
-
+    let mkState b d pn h my t= {board = b; dict = d;  playerNumber = pn; hand = h ; myTurn = my; tiles = t}
+    //positionAvalible = pa
     let board st         = st.board
     let dict st          = st.dict
     let playerNumber st  = st.playerNumber
     let hand st          = st.hand
     let myTurn st = st.myTurn
+    //let positionAvalible st = st.positionAvalible
 
-module Scrabble =
+module Scrabble =   
     open System.Threading
 
     let playGame cstream pieces (st : State.state) =
@@ -85,13 +90,21 @@ module Scrabble =
                 let st' = State.mkState 
                                 st.board 
                                 st.dict 
-                                st.playerNumber st.hand false
+                                st.playerNumber 
+                                st.hand false
+                                st.tiles
+
                 debugPrint("!!!!!!!!!!I have played a succesful move!!!!!!!!!!\n") // Th
                 aux st'
                 
             | RCM (CMPlayed (pid, ms, points)) ->
                 (* Successful play by other player. Update your state *)
-                let st' = State.mkState st.board st.dict st.playerNumber st.hand true // This state needs to be updated
+                let st' = State.mkState 
+                            st.board 
+                            st.dict 
+                            st.playerNumber 
+                            st.hand true 
+                            st.tiles // This state needs to be updated
                 debugPrint("??????????They have played a succesful move????????????\n")
                 aux st'
                 
@@ -99,12 +112,17 @@ module Scrabble =
                 (* Failed play. Update your state *)
                 if(st.myTurn) 
                 then
-                    let st' = State.mkState st.board st.dict st.playerNumber st.hand true
+                    let st' = State.mkState 
+                                st.board 
+                                st.dict 
+                                st.playerNumber 
+                                st.hand true 
+                                st.tiles
                     debugPrint("xxxxxxxxx You have failed a move\n")
                     aux st'
 
                 else
-                    let st' = State.mkState st.board st.dict st.playerNumber st.hand false
+                    let st' = State.mkState st.board st.dict st.playerNumber st.hand false st.tiles
                     debugPrint "xxxxxxxxxx They have failed a move\n"
                     aux st'
 
@@ -139,5 +157,5 @@ module Scrabble =
                   
         let handSet = List.fold (fun acc (x, k) -> MultiSet.add x k acc) MultiSet.empty hand
 
-        fun () -> playGame cstream tiles (State.mkState board dict playerNumber handSet (playerNumber = playerTurn))
+        fun () -> playGame cstream tiles (State.mkState board dict playerNumber handSet (playerNumber = playerTurn) Map.empty)
         

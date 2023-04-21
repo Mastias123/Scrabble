@@ -48,7 +48,7 @@ module internal Dictionary
     let step (c: char) (dict: Dict) = 
         match dict with
         | Leaf _ -> None //cannot come further down than a leaf
-        | Node (b, map) -> 
+        | Node (_, map) -> 
             match map.TryGetValue c with //match if we have the char value
             | (false, _) -> None
             | (true, value) -> //check if there is another layer in the trie
