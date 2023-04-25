@@ -2,6 +2,7 @@ namespace NoStepFunction
 
 open Types
 open ScrabbleUtil
+open ScrabbleUtil.DebugPrint
 
 module internal OurTurn =
 
@@ -22,24 +23,60 @@ module internal OurTurn =
 //     | false -> Failure 
 //     | _ -> 
 
-let rec findFirstWord (my : hand) (d : dict) (words: List<List<char>>) (soFar : List<char>) : List<List<char>> =
+let findFirstWord (my : hand) (d : dict) : string =
     // let firstTile = MultiSet.toList my |> List.head         
     // let counter = MultiSet.fold (fun acc elm -> acc + elm) 0 (MultiSet.size my)
     // if(counter <> MultiSet.size my) 
     // then 
-    //     findFirstWord (MultiSet.toList my |> List.tail) d acc 
-    let rec aux allWords lst = //AllWords is all the words that is returned
-        match lst with 
-        | [] -> allWords 
-        | i::lst -> //i means that there is a element in the list and then we matches with the step function 
-            let a = 
-                match Dictionary.step i d with
-                | Some (b, d') -> 
-                    findFirstWord (MultiSet.removeSingle i my) d' (if b then (i::soFar)::words else words) (i::soFar) //soFar is the word we are constructing 
-                | None -> words   
-            aux (allWords@a) lst
-    aux [] (MultiSet.toList my)
-    
+    //     findFirstWord (MultiSet.toList my |> List.tail) d acc    
+    let rec aux (currentHand : hand) (currentDict : dict) (currentWord : string) =
+        debugPrint(sprintf "Calling aux with currentWord = %A \n" currentWord)
+        debugPrint(sprintf "Print Hand %A \n" currentHand)
+        List.fold (fun (wordSoFar : string) (c : uint32) -> 
+            match Dictionary.step (uintToChar c) currentDict with 
+                | Some (b, d' ) -> 
+                   
+                    //debugPrint(sprintf "Trying to remove new hand: %A\n" wordSoFar)
+                    let newhand = MultiSet.removeSingle c currentHand
+                    let currentString = wordSoFar + string (uintToChar c)
+                    //debugPrint(sprintf "Succesfull remove new hand: %A\n" wordSoFar)
+
+                    let longestWordInBranch = aux (newhand) d' currentString
+                    if(b)
+                    then
+                        debugPrint( sprintf "The boolean is true, current word is %A\n" (currentString))
+                        currentString
+                    
+                    else 
+                        //Steps up in the dictionary with a new char
+                        debugPrint( sprintf "The boolean is false,%A\n" (longestWordInBranch))
+                        longestWordInBranch
+
+                | None ->
+                    debugPrint( sprintf "None %A\n" currentWord)
+                    currentWord
+            //Call Dict step on c
+            // Match that with Some and None
+                //If some call aux function with hand (with removed tile) the new dict d' ()
+                    //If some is (true, 'd) if wordsSoFar
+                //If none then return wordSoFar
+        
+        ) "" (MultiSet.toList my)
+    aux my d ""
+
+    // let rec aux allWords lst = //AllWords is all the words that is returned
+    //     match lst with 
+    //     | [] -> allWords 
+    //     | i::lst -> //i means that there is a element in the list and then we matches with the step function 
+    //         let a = 
+    //             match Dictionary.step i d with
+    //             | Some (b, d') -> 
+    //                 findFirstWord (MultiSet.removeSingle i my) d' (if b then (i::soFar)::words else words) (i::soFar) //soFar is the word we are constructing 
+    //             | None -> words   
+    //         aux (allWords@a) lst
+    // aux [] (MultiSet.toList my)
+
+
     //Go through the hand 
     //Then call step and check and append the accumulator
     //Call recursiv on the acc.

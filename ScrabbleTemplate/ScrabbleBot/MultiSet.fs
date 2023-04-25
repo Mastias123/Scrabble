@@ -33,13 +33,17 @@ module internal MultiSet
         | 0u -> M (Map.add a 1u s)
         | x -> M (Map.add a (1u + x) s) 
 
-    let remove a n (M s as ms) =
+     let remove a n (M s as ms) = 
         match numItems a ms with
-        | 0u -> ms
-        | x when n > x -> M (Map.remove a s) //hvis det antal elementer n jeg gerne vil fjerne er større en det antal elementer
-        //der allerede er x så fjerner jeg keyen og returnere mapped. f.eks. hvis mappet n = 4 > x(2,3) 
-        | x when n < x -> M (Map.add a (x - n) s) //tilføjer mapped når det antal elementer jeg vil fjerne er mindre end x
-        // n = 1 < x(2,3) ville blive lig med = 2 fordi 3-1 x = 3 og n = 
+        | x when x <= n -> Map.remove a s |> M
+        | _ -> add a (0u - n) ms
+    // let remove a n (M s as ms) =
+    //     match numItems a ms with
+    //     | 0u -> ms
+    //     | x when n < x -> M (Map.remove a s) //hvis det antal elementer n jeg gerne vil fjerne er større en det antal elementer
+    //     //der allerede er x så fjerner jeg keyen og returnere mapped. f.eks. hvis mappet n = 4 > x(2,3) 
+    //     | x when n > x -> M (Map.add a (x - n) s) //tilføjer mapped når det antal elementer jeg vil fjerne er mindre end x
+    //     // n = 1 < x(2,3) ville blive lig med = 2 fordi 3-1 x = 3 og n = 
         
     let removeSingle a (M s as ms) = remove a 1u ms //remove tjekker også hvis a ikke er i s pga. remove bruger numItems, numItems
     //bruger tryFind der tjekker om den eksistere
