@@ -45,6 +45,23 @@ module internal Dictionary
             else
                 false
 
+    // let step (c: char) (dict: Dict) = 
+    //     match dict with
+    //     | Leaf _ -> None //cannot come further down than a leaf
+    //     | Node (_, map) -> 
+    //         match map.TryGetValue c with //match if we have the char value
+    //         | (b, value) -> //check if there is another layer in the trie
+    //             if(b)
+    //             then 
+    //                 match value with  
+    //                 | Leaf b -> Some (b, value)
+    //                 | Node (b, _) -> Some (b, value)
+    //             else 
+    //                 match value with
+    //         | 
+                //if we return some then we can build the word given the char else if none is returned then go to next letter
+
+            
     let step (c: char) (dict: Dict) = 
         match dict with
         | Leaf _ -> None //cannot come further down than a leaf

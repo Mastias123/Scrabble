@@ -96,7 +96,8 @@ module Scrabble =
                                 st.board 
                                 st.dict 
                                 st.playerNumber 
-                                st.hand false
+                                st.hand 
+                                false
                                 st.tiles
 
                 debugPrint("!!!!!!!!!!I have played a succesful move!!!!!!!!!!\n") // Th
@@ -108,7 +109,8 @@ module Scrabble =
                             st.board 
                             st.dict 
                             st.playerNumber 
-                            st.hand true 
+                            st.hand 
+                            true 
                             st.tiles // This state needs to be updated
                 debugPrint("??????????They have played a succesful move????????????\n")
                 aux st'
@@ -121,7 +123,8 @@ module Scrabble =
                                 st.board 
                                 st.dict 
                                 st.playerNumber 
-                                st.hand true 
+                                st.hand 
+                                true 
                                 st.tiles
                     debugPrint("xxxxxxxxx You have failed a move\n")
                     aux st'

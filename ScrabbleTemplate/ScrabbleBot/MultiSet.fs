@@ -34,9 +34,8 @@ module internal MultiSet
         | x -> M (Map.add a (1u + x) s) 
 
      let remove a n (M s as ms) = 
-        match numItems a ms with
-        | x when x <= n -> Map.remove a s |> M
-        | _ -> add a (0u - n) ms
+        let occur = numItems a ms
+        if (occur > n) then M (Map.add a (occur - n) s) else M(s.Remove a)
     // let remove a n (M s as ms) =
     //     match numItems a ms with
     //     | 0u -> ms
