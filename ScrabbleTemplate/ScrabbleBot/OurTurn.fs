@@ -24,7 +24,7 @@ module internal OurTurn =
 //     | _ -> 
 
 //my is the hand we have with the tiles,  d is the trie, coord is the coordinates on the board, dir is the upcoming directions on the board
-let findFirstWord (my : hand) (d : dict) (coordinate : coord) (dir: coord)  : string =
+let findFirstWord (my : hand) (d : dict)  : string =
     
     let rec aux (currentHand : hand) (currentDict : dict) (currentWord : string) = //currentWord is the acc we add to
         debugPrint(sprintf "Calling aux with currentWord = %A \n" currentWord)
@@ -55,7 +55,7 @@ let findFirstWord (my : hand) (d : dict) (coordinate : coord) (dir: coord)  : st
                         wordSoFar
 
                 | None -> //when the char is a leaf none beneth it
-                    debugPrint( sprintf "None %A\n" wordSoFar)
+                    //debugPrint( sprintf "None %A\n" wordSoFar)
                     //(wordSoFar + string (uintToChar c))
                     wordSoFar
                     //aux currentHand d (wordSoFar.Substring (wordSoFar.Length - 1))
@@ -70,6 +70,16 @@ let findFirstWord (my : hand) (d : dict) (coordinate : coord) (dir: coord)  : st
 
     //Get the first tile from your hand
     
+
+let placeOnBoard (word : string) (coordinate: coord) ((dx,dy) : coord) : list<(int * int) * (uint32 * (char * int))> =
+    let rec aux (word' : string) ((x,y): coord) acc =
+        match word' with
+        | "" -> acc
+        | w ->
+            let firstLetter = w[0]
+            let pointOfFirstLetter = charToPoint (charToInteger firstLetter)
+            aux word'[1..] (x+dx, y+dy) (((x,y), (charToInteger firstLetter, (firstLetter, pointOfFirstLetter)))::acc)
+    aux word coordinate []
 
     //Then try to create a word out of the first word
     //let wordsToPlay = Dictionary.step firstTile d

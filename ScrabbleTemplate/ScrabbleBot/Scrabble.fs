@@ -71,16 +71,22 @@ module Scrabble =
             if(st.myTurn) 
                 then 
                 debugPrint("***************Now it's my turn to play**************\n") 
-                //Print.printHand pieces (State.hand st)
-                let testHand = MultiSet.addSingle 1u MultiSet.empty |> MultiSet.addSingle 16u |> MultiSet.addSingle 5u
-                Print.printHand pieces testHand
-                let move2 = findFirstWord testHand st.dict 
-                debugPrint(sprintf "øøøøøøøøøøøøøøøøøøOurTurn found thisøøøøøøøøøøø %A" move2)
+                Print.printHand pieces (State.hand st)
+                //let testHand = MultiSet.addSingle 1u MultiSet.empty |> MultiSet.addSingle 16u |> MultiSet.addSingle 5u
+                //Print.printHand pieces testHand
+                //let move2 = findFirstWord testHand st.dict (0,0)
+                let move2 = findFirstWord (State.hand st) st.dict
+                let placeMove = placeOnBoard move2 (0,0) (1,0)
+                debugPrint(sprintf "uuuuuuuuuuuuuup %A\n" placeOnBoard)
+
+                debugPrint(sprintf "øøøøøøøøøøøøøøøøøøOurTurn found thisøøøøøøøøøøø %A\n" move2)
                 forcePrint "Input move (format '(<x-coordinate> <y-coordinate> <piece id><character><point-value> )*', note the absence of space between the last inputs)\n\n"
-                let input =  System.Console.ReadLine()
-                let move = RegEx.parseMove input
+                //let input =  System.Console.ReadLine()
+                //let move = RegEx.parseMove input
+                let move = placeMove
                 
                 debugPrint (sprintf "Player %d -> Server:\n%A\n" (State.playerNumber st) move) // keep the debug lines. They are useful.
+                //send cstream (SMPlay move)
                 send cstream (SMPlay move)
                 debugPrint (sprintf "Player %d <- Server:\n%A\n" (State.playerNumber st) move)
             
