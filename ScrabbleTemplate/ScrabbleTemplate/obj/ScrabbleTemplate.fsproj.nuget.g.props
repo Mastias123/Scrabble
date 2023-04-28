@@ -4,17 +4,17 @@
     <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
-    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\madsg\.nuget\packages\</NuGetPackageFolders>
+    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">/Users/christianlauridsen/.nuget/packages/</NuGetPackageRoot>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">/Users/christianlauridsen/.nuget/packages/</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.4.0</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <SourceRoot Include="C:\Users\madsg\.nuget\packages\" />
+    <SourceRoot Include="/Users/christianlauridsen/.nuget/packages/" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgFSharp_Core Condition=" '$(PkgFSharp_Core)' == '' ">C:\Users\madsg\.nuget\packages\fsharp.core\7.0.200</PkgFSharp_Core>
-    <PkgFsPickler Condition=" '$(PkgFsPickler)' == '' ">C:\Users\madsg\.nuget\packages\fspickler\5.3.2</PkgFsPickler>
-    <PkgFSharp_Quotations_Evaluator Condition=" '$(PkgFSharp_Quotations_Evaluator)' == '' ">C:\Users\madsg\.nuget\packages\fsharp.quotations.evaluator\2.1.0</PkgFSharp_Quotations_Evaluator>
+    <PkgFSharp_Core Condition=" '$(PkgFSharp_Core)' == '' ">/Users/christianlauridsen/.nuget/packages/fsharp.core/7.0.200</PkgFSharp_Core>
+    <PkgFsPickler Condition=" '$(PkgFsPickler)' == '' ">/Users/christianlauridsen/.nuget/packages/fspickler/5.3.2</PkgFsPickler>
+    <PkgFSharp_Quotations_Evaluator Condition=" '$(PkgFSharp_Quotations_Evaluator)' == '' ">/Users/christianlauridsen/.nuget/packages/fsharp.quotations.evaluator/2.1.0</PkgFSharp_Quotations_Evaluator>
   </PropertyGroup>
 </Project>

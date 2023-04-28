@@ -77,7 +77,7 @@ module Scrabble =
                 //let move2 = findFirstWord testHand st.dict (0,0)
                 let move2 = findFirstWord (State.hand st) st.dict
                 let placeMove = placeOnBoard move2 (0,0) (1,0)
-                debugPrint(sprintf "uuuuuuuuuuuuuup %A\n" placeOnBoard)
+                debugPrint(sprintf "uuuuuuuuuuuuuup %A\n" placeMove)
 
                 debugPrint(sprintf "øøøøøøøøøøøøøøøøøøOurTurn found thisøøøøøøøøøøø %A\n" move2)
                 forcePrint "Input move (format '(<x-coordinate> <y-coordinate> <piece id><character><point-value> )*', note the absence of space between the last inputs)\n\n"
