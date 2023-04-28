@@ -1,26 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj": {}
+    "C:\\Users\\madsg\\Uni\\Functional_Programming\\Project\\Scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj": {}
   },
   "projects": {
-    "/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj": {
+    "C:\\Users\\madsg\\Uni\\Functional_Programming\\Project\\Scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj",
+        "projectUniqueName": "C:\\Users\\madsg\\Uni\\Functional_Programming\\Project\\Scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj",
         "projectName": "ScrabbleBot",
-        "projectPath": "/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj",
-        "packagesPath": "/Users/christianlauridsen/.nuget/packages/",
-        "outputPath": "/Users/christianlauridsen/Documents/Functional Programming/Scrabble/ScrabbleTemplate/ScrabbleBot/obj/",
+        "projectPath": "C:\\Users\\madsg\\Uni\\Functional_Programming\\Project\\Scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj",
+        "packagesPath": "C:\\Users\\madsg\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\madsg\\Uni\\Functional_Programming\\Project\\Scrabble\\ScrabbleTemplate\\ScrabbleBot\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/christianlauridsen/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\madsg\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/sdk/7.0.100/FSharp/library-packs": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\sdk\\7.0.105\\FSharp\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -62,7 +64,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.105\\RuntimeIdentifierGraph.json"
         }
       }
     }

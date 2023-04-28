@@ -23,28 +23,25 @@ module internal OurTurn =
 //     | false -> Failure 
 //     | _ -> 
 
-let findFirstWord (my : hand) (d : dict) (coordinate : coord) (dir: coord) : string =
-    // let firstTile = MultiSet.toList my |> List.head         
-    // let counter = MultiSet.fold (fun acc elm -> acc + elm) 0 (MultiSet.size my)
-    // if(counter <> MultiSet.size my) 
-    // then 
-    //     findFirstWord (MultiSet.toList my |> List.tail) d acc    
-    let rec aux (currentHand : hand) (currentDict : dict) (currentWord : string) = //currentWord is the acc we adds to
+//my is the hand we have with the tiles,  d is the trie, coord is the coordinates on the board, dir is the upcoming directions on the board
+let findFirstWord (my : hand) (d : dict) (coordinate : coord) (dir: coord)  : string =
+    
+    let rec aux (currentHand : hand) (currentDict : dict) (currentWord : string) = //currentWord is the acc we add to
         debugPrint(sprintf "Calling aux with currentWord = %A \n" currentWord)
         debugPrint(sprintf "Print Hand %A \n" currentHand)
         List.fold (fun (wordSoFar : string) (c : uint32) -> 
             match Dictionary.step (uintToChar c) currentDict with 
-                | Some (b, d') -> //when we get a char that is a node 
+                | Some (b, d') -> //when we get a char  
                     debugPrint(sprintf "******Looking at  letter %A\n" c)
                     
                     //debugPrint(sprintf "Trying to remove new hand: %A\n" wordSoFar)
-                    let newhand = MultiSet.removeSingle c currentHand
+                    let newhand = MultiSet.removeSingle c currentHand //removes the char from hand so we can look at the next
                     //Use tile so when we call aux then give the next coordinat with an direction
-                    let currentString = currentWord + string (uintToChar c)
+                    let currentString = currentWord + string (uintToChar c) //current string is the string build so far from the acc 
                     debugPrint(sprintf "-----------------CurrentString is %A --------- CurrentWord is %A\n" currentString currentWord)
-                    let WordInBranch = aux (newhand) d' currentString
+                    let WordInBranch = aux (newhand) d' currentString //gives the new hand with the string
                     //debugPrint(sprintf "Succesfull remove new hand: %A\n" wordSoFar)
-                    if(b && currentString.Length > WordInBranch.Length && currentString.Length > wordSoFar.Length)
+                    if(b && currentString.Length > WordInBranch.Length && currentString.Length > wordSoFar.Length) //
                     then
                         //Then return our string
                         debugPrint( sprintf "The boolean is true, current word is %A\n" (currentString))
