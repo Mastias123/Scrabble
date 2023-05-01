@@ -75,7 +75,7 @@ module Scrabble =
                 //let testHand = MultiSet.addSingle 1u MultiSet.empty |> MultiSet.addSingle 16u |> MultiSet.addSingle 5u
                 //Print.printHand pieces testHand
                 //let move2 = findFirstWord testHand st.dict (0,0)
-                let move2 = findFirstWord (State.hand st) st.dict
+                let move2 = findFirstWord (State.hand st) st.dict (getStarters st.tiles) 
                 let placeMove = placeOnBoard move2 (0,0) (1,0)
                 debugPrint(sprintf "uuuuuuuuuuuuuup %A\n" placeMove)
 

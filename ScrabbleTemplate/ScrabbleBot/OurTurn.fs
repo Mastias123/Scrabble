@@ -25,33 +25,34 @@ module internal OurTurn =
 //     | _ -> 
 
 //my is the hand we have with the tiles,  d is the trie, coord is the coordinates on the board, dir is the upcoming directions on the board
-let findFirstWord (my : hand) (d : dict) (startpositions : List<coord>) : string =
+let findFirstWord (my : hand) (d : dict) (startpositions : List<(coord*char)*(coord)>) : string =
+    debugPrint(sprintf "Starting positions = %A \n" startpositions)
     let rec aux (currentHand : hand) (currentDict : dict) (currentWord : string) = //currentWord is the acc we add to
-        debugPrint(sprintf "Calling aux with currentWord = %A \n" currentWord)
-        debugPrint(sprintf "Print Hand %A \n" currentHand)
+        //debugPrint(sprintf "Calling aux with currentWord = %A \n" currentWord)
+        //debugPrint(sprintf "Print Hand %A \n" currentHand)
         List.fold (fun (wordSoFar : string) (c : uint32) -> 
             match Dictionary.step (uintToChar c) currentDict with 
                 | Some (b, d') -> //when we get a char  
-                    debugPrint(sprintf "******Looking at  letter %A\n" c)
+                    //debugPrint(sprintf "******Looking at  letter %A\n" c)
                     
                     //debugPrint(sprintf "Trying to remove new hand: %A\n" wordSoFar)
                     let newhand = MultiSet.removeSingle c currentHand //removes the char from hand so we can look at the next
                     //Use tile so when we call aux then give the next coordinat with an direction
                     let currentString = currentWord + string (uintToChar c) //current string is the string build so far from the acc 
-                    debugPrint(sprintf "-----------------CurrentString is %A --------- CurrentWord is %A\n" currentString currentWord)
+                    //debugPrint(sprintf "-----------------CurrentString is %A --------- CurrentWord is %A\n" currentString currentWord)
                     let WordInBranch = aux (newhand) d' currentString //gives the new hand with the string
                     //debugPrint(sprintf "Succesfull remove new hand: %A\n" wordSoFar)
                     if(b && currentString.Length > WordInBranch.Length && currentString.Length > wordSoFar.Length) //
                     then
                         //Then return our string
-                        debugPrint( sprintf "The boolean is true, current word is %A\n" (currentString))
+                        //debugPrint( sprintf "The boolean is true, current word is %A\n" (currentString))
                         currentString 
                     elif (WordInBranch.Length > currentWord.Length) then
-                        debugPrint( sprintf "The boolean is true when word > currentword, current word is %A\n" (currentString))
+                        //debugPrint( sprintf "The boolean is true when word > currentword, current word is %A\n" (currentString))
                         WordInBranch
                     else 
                         //Steps up in the dictionary with a new char
-                        debugPrint( sprintf "The boolean is false,%A\n" (wordSoFar))
+                        //debugPrint( sprintf "The boolean is false,%A\n" (wordSoFar))
                         wordSoFar
 
                 | None -> //when the char is a leaf none beneth it
@@ -124,14 +125,23 @@ let placeOnBoard (word : string) (coordinate: coord) ((dx,dy) : coord) : list<(i
 //Så find alle mulige ord ud fra de chars
 //Functionen skal returnere en liste alle start positioner som man kan spille et ord på
 //Function below will check if the coordinates to the left and right are available on the board so we can play a word and return a list of start positions
-let getStarters (tiles : tiles) : List<(coord*char)*(coord)> = //fold has to return the tiles aand direction. Lis<(coord*char)*coord is the char and the direction
+let getStarters (tiles : tiles) : List<(coord*char)*(coord)> = 
+    let horizontel = //fold has to return the tiles aand direction. Lis<(coord*char)*coord is the char and the direction
+        Map.fold(fun acc coord c -> 
+            match checkDirection coord tiles right with
+            | true -> ((coord, c), right)::acc
+            | false -> acc
+        ) [] tiles
+    
+    let vetical =
+        Map.fold(fun acc1 coord1 char1 -> 
+            match checkDirection coord1 tiles down with 
+            | true -> ((coord1, char1), down)::acc1
+            | false -> acc1
+        ) [] tiles
+    horizontel@vetical
 
-    Map.fold(fun acc tile -> 
-        let coord = (fst tile)
-        let c = (snd tile)
-        match checkDirection coord tiles right with
-        | true -> ((coord, c, tile), right)::acc
-        | false -> acc
-    ) [] tiles
-
+    
         
+
+
