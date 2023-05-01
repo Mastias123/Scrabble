@@ -11,6 +11,7 @@
     <Compile Include="StateMonad.fs" />
     <Compile Include="Eval.fs" />
     <Compile Include="Types.fs" />
+    <Compile Include="HelperFunctions.fs" />
     <Compile Include="OurTurn.fs" />
     <Compile Include="Parser.fsi" />
     <Compile Include="Parser.fs" />

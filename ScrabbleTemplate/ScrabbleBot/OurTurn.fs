@@ -3,6 +3,7 @@ namespace NoStepFunction
 open Types
 open ScrabbleUtil
 open ScrabbleUtil.DebugPrint
+open HelperFunctions
 
 module internal OurTurn =
 
@@ -24,8 +25,7 @@ module internal OurTurn =
 //     | _ -> 
 
 //my is the hand we have with the tiles,  d is the trie, coord is the coordinates on the board, dir is the upcoming directions on the board
-let findFirstWord (my : hand) (d : dict)  : string =
-    
+let findFirstWord (my : hand) (d : dict) (startpositions : List<coord>) : string =
     let rec aux (currentHand : hand) (currentDict : dict) (currentWord : string) = //currentWord is the acc we add to
         debugPrint(sprintf "Calling aux with currentWord = %A \n" currentWord)
         debugPrint(sprintf "Print Hand %A \n" currentHand)
@@ -68,7 +68,8 @@ let findFirstWord (my : hand) (d : dict)  : string =
         ) "" (MultiSet.toList currentHand)
     aux my d ""
 
-    //Get the first tile from your hand
+   
+    
     
 
 let placeOnBoard (word : string) (coordinate: coord) ((dx,dy) : coord) : list<(int * int) * (uint32 * (char * int))> =
@@ -119,7 +120,18 @@ let placeOnBoard (word : string) (coordinate: coord) ((dx,dy) : coord) : list<(i
 
 
 
+//Først find chars hvor overbo og underbo er tomme
+//Så find alle mulige ord ud fra de chars
+//Functionen skal returnere en liste alle start positioner som man kan spille et ord på
+//Function below will check if the coordinates to the left and right are available on the board so we can play a word and return a list of start positions
+let getStarters (tiles : tiles) : List<(coord*char)*(coord)> = //fold has to return the tiles aand direction. Lis<(coord*char)*coord is the char and the direction
 
+    Map.fold(fun acc tile -> 
+        let coord = (fst tile)
+        let c = (snd tile)
+        match checkDirection coord tiles right with
+        | true -> ((coord, c, tile), right)::acc
+        | false -> acc
+    ) [] tiles
 
-    
-
+        
