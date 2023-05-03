@@ -1,6 +1,7 @@
 namespace NoStepFunction
 open MultiSet
 open Types
+open ScrabbleUtil.DebugPrint
 open ScrabbleUtil
 
 
@@ -26,10 +27,17 @@ module internal HelperFunctions =
 
     let checkIfTileIsEmpty (coordinate : coord) (tiles : tiles): bool =
         match Map.tryFind coordinate tiles with 
-        | Some (_) -> true
-        | None -> false
+        | Some (_) -> 
+                    //debugPrint(sprintf "tile is noooooooooot empty at coord: %A\n" coordinate) 
+                    false
+        | None -> 
+                    //debugPrint(sprintf "tile is empty at coord: %A\n" coordinate) 
+                    true
 
 
     let checkDirection ((x,y) : coord) (tiles : tiles) (dx, dy) : bool =
+        debugPrint(sprintf "checking direction at %A\n" (x,y))
         checkIfTileIsEmpty (x+dx, y+dy) tiles && checkIfTileIsEmpty (x-dx, y-dy) tiles //we look to the right and the left
-        
+    
+
+    

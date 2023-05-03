@@ -73,32 +73,73 @@ module Scrabble =
     let playGame cstream pieces (st : State.state) =
 
         let rec aux (st : State.state) =
-            if(st.myTurn) 
-                then 
-                debugPrint("***************Now it's my turn to play**************\n") 
-                Print.printHand pieces (State.hand st)
-                //let testHand = MultiSet.addSingle 1u MultiSet.empty |> MultiSet.addSingle 16u |> MultiSet.addSingle 5u
-                //Print.printHand pieces testHand
-                //let move2 = findFirstWord testHand st.dict (0,0)
-                debugPrint(sprintf "calling getStarters wiht %A\n" (getStarters st.tiles))
-                let move2 = findFirstWord (State.hand st) st.dict (getStarters st.tiles) 
-                debugPrint (sprintf "***output from getStarters call***  %A\n" move2)
-                let placeMove = placeOnBoard move2 (0,0) (1,0)
-                debugPrint(sprintf "uuuuuuuuuuuuuup %A\n" placeMove)
+            // if(st.myTurn) 
+            //     then 
+            //     debugPrint("***************Now it's my turn to play**************\n") 
+            //     Print.printHand pieces (State.hand st)
+            //     //let testHand = MultiSet.addSingle 1u MultiSet.empty |> MultiSet.addSingle 16u |> MultiSet.addSingle 5u
+            //     //Print.printHand pieces testHand
+            //     //let move2 = findFirstWord testHand st.dict (0,0)
+            //     debugPrint(sprintf "calling getStarters wiht %A\n" (getStarters st.tiles))
 
-                debugPrint(sprintf "øøøøøøøøøøøøøøøøøøOurTurn found thisøøøøøøøøøøø %A\n" move2)
-                forcePrint "Input move (format '(<x-coordinate> <y-coordinate> <piece id><character><point-value> )*', note the absence of space between the last inputs)\n\n"
-                //let input =  System.Console.ReadLine()
-                //let move = RegEx.parseMove input
-                let move = placeMove
+            //     let move2 = findFirstWord st.hand st.dict (getStarters st.tiles) 
+            //     debugPrint (sprintf "***output from getStarters call***  %A\n" move2)
+
+            //     let startPosistionsCordsAndDirection = getRandomStartPosition st.tiles
+            //     let startPos = (fst(fst startPosistionsCordsAndDirection)),(snd(fst startPosistionsCordsAndDirection)-1)
+            //     let startDir = snd startPosistionsCordsAndDirection
+            //     debugPrint(sprintf "startPos =  %A\n" startPos)
+            //     debugPrint(sprintf "startDir =  %A\n" startDir)
                 
-                debugPrint (sprintf "Player %d -> Server:\n%A\n" (State.playerNumber st) move) // keep the debug lines. They are useful.
-                //send cstream (SMPlay move)
-                send cstream (SMPlay move)
-                debugPrint (sprintf "Player %d <- Server:\n%A\n" (State.playerNumber st) move)
+            //     let placeMove = placeOnBoard move2 startPos startDir
+            //     debugPrint(sprintf "uuuuuuuuuuuuuup %A\n" placeMove)
+
+            //     debugPrint(sprintf "øøøøøøøøøøøøøøøøøøOurTurn found thisøøøøøøøøøøø %A\n" move2)
+            //     forcePrint "Input move (format '(<x-coordinate> <y-coordinate> <piece id><character><point-value> )*', note the absence of space between the last inputs)\n\n"
+            //     //let input =  System.Console.ReadLine()
+            //     //let move = RegEx.parseMove input
+            //     let move = placeMove
+                
+            //     debugPrint (sprintf "Player %d -> Server:\n%A\n" (State.playerNumber st) move) // keep the debug lines. They are useful.
+            //     //send cstream (SMPlay move)
+            //     send cstream (SMPlay move)
+            //     debugPrint (sprintf "Player %d <- Server:\n%A\n" (State.playerNumber st) move)
             
-            else debugPrint("---------------It's not my turn to play------------------\n")
+            // else debugPrint("---------------It's not my turn to play------------------\n")
             
+              
+                
+            debugPrint("***************Now it's my turn to play**************\n") 
+            Print.printHand pieces (State.hand st)
+            //let testHand = MultiSet.addSingle 1u MultiSet.empty |> MultiSet.addSingle 16u |> MultiSet.addSingle 5u
+            //Print.printHand pieces testHand
+            //let move2 = findFirstWord testHand st.dict (0,0)
+            debugPrint(sprintf "calling getStarters wiht %A\n" (getStarters st.tiles))
+
+            let move2 = findFirstWord st.hand st.dict (getStarters st.tiles) 
+            //debugPrint (sprintf "***output from getStarters call***  %A\n" move2)
+
+            let startPosistionsCordsAndDirection = getRandomStartPosition st.tiles
+            let startPos = (fst(fst startPosistionsCordsAndDirection)),(snd(fst startPosistionsCordsAndDirection))
+            let startDir = snd startPosistionsCordsAndDirection
+            debugPrint(sprintf "startPos =  %A\n" startPos)
+            debugPrint(sprintf "startDir =  %A\n" startDir)
+            
+            let placeMove = placeOnBoard move2 startPos startDir
+            debugPrint(sprintf "uuuuuuuuuuuuuup %A\n" placeMove)
+
+            debugPrint(sprintf "øøøøøøøøøøøøøøøøøøOurTurn found thisøøøøøøøøøøø %A\n" move2)
+            forcePrint "Input move (format '(<x-coordinate> <y-coordinate> <piece id><character><point-value> )*', note the absence of space between the last inputs)\n\n"
+            //let input =  System.Console.ReadLine()
+            //let move = RegEx.parseMove input
+            let move = placeMove
+            
+            debugPrint (sprintf "Player %d -> Server:\n%A\n" (State.playerNumber st) move) // keep the debug lines. They are useful.
+            //send cstream (SMPlay move)
+            send cstream (SMPlay move)
+            debugPrint (sprintf "Player %d <- Server:\n%A\n" (State.playerNumber st) move)
+            
+        
             // remove the force print when you move on from manual input (or when you have learnt the format)
             let msg = recv cstream
            // keep the debug lines. They are useful.
@@ -109,8 +150,6 @@ module Scrabble =
                 // add new pieces to hand (id of piece, and number of pieces)
                 // update tiles
 
-                 
-                
                 //handWithOutRemovedElementsThatWerePlayedLastTurn it is our new state
                 let removeFromHand = 
                     List.fold (fun acc (_, (id, (_, _)))  -> MultiSet.removeSingle id acc) st.hand piecesPlaced //remove id tile
@@ -153,6 +192,8 @@ module Scrabble =
                 
             | RCM (CMPlayFailed (pid, ms)) ->
                 (* Failed play. Update your state *)
+
+                let newTiles = updateTiles ms st.tiles
                 if(st.myTurn) 
                 then
                     let st' = State.mkState 
@@ -161,7 +202,7 @@ module Scrabble =
                                 st.playerNumber 
                                 st.hand 
                                 true 
-                                st.tiles
+                                newTiles
                     debugPrint("xxxxxxxxx You have failed a move\n")
                     aux st'
 
@@ -169,6 +210,7 @@ module Scrabble =
                     let st' = State.mkState st.board st.dict st.playerNumber st.hand false st.tiles
                     debugPrint "xxxxxxxxxx They have failed a move\n"
                     aux st'
+                      
 
             | RCM (CMGameOver _) -> ()
             | RCM a -> failwith (sprintf "not implmented: %A" a)
