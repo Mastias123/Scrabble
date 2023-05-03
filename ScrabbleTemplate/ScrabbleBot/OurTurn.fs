@@ -126,11 +126,17 @@ let placeOnBoard (word : string) (coordinate: coord) ((dx,dy) : coord) : list<(i
 //Functionen skal returnere en liste alle start positioner som man kan spille et ord på
 //Function below will check if the coordinates to the left and right are available on the board so we can play a word and return a list of start positions
 let getStarters (tiles : tiles) : List<(coord*char)*(coord)> = 
+    debugPrint(sprintf"tiles are %A\n" tiles)
     let horizontel = //fold has to return the tiles aand direction. Lis<(coord*char)*coord is the char and the direction
         Map.fold(fun acc coord c -> 
+            debugPrint(sprintf "Looking at cord %A and char %A\n" coord c)
             match checkDirection coord tiles right with
-            | true -> ((coord, c), right)::acc
-            | false -> acc
+            | true -> 
+                debugPrint("True\n")
+                ((coord, c), right)::acc
+            | false -> 
+                debugPrint("True\n")
+                acc
         ) [] tiles
     
     let vetical =

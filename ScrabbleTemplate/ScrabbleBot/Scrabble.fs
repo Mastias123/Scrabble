@@ -6,6 +6,7 @@ open ScrabbleUtil.ServerCommunication
 open System.IO
 
 open ScrabbleUtil.DebugPrint
+open MultiSet
 
 open OurTurn
 
@@ -62,9 +63,13 @@ module State =
     let myTurn st = st.myTurn
     //let positionAvalible st = st.positionAvalible
 
+    
+
 module Scrabble =   
     open System.Threading
 
+    let updateTiles ms tiles = 
+        List.fold (fun acc (coord, (_, (char, _))) -> Map.add coord char acc) tiles ms
     let playGame cstream pieces (st : State.state) =
 
         let rec aux (st : State.state) =
@@ -75,7 +80,9 @@ module Scrabble =
                 //let testHand = MultiSet.addSingle 1u MultiSet.empty |> MultiSet.addSingle 16u |> MultiSet.addSingle 5u
                 //Print.printHand pieces testHand
                 //let move2 = findFirstWord testHand st.dict (0,0)
+                debugPrint(sprintf "calling getStarters wiht %A\n" (getStarters st.tiles))
                 let move2 = findFirstWord (State.hand st) st.dict (getStarters st.tiles) 
+                debugPrint (sprintf "***output from getStarters call***  %A\n" move2)
                 let placeMove = placeOnBoard move2 (0,0) (1,0)
                 debugPrint(sprintf "uuuuuuuuuuuuuup %A\n" placeMove)
 
@@ -96,28 +103,51 @@ module Scrabble =
             let msg = recv cstream
            // keep the debug lines. They are useful.
             match msg with
-            | RCM (CMPlaySuccess(ms, points, newPieces)) ->
+            | RCM (CMPlaySuccess(piecesPlaced, points, newPieces)) ->
                 (* Successful play by you. Update your state (remove old tiles, add the new ones, change turn, etc) *)
+                // remove piecesPlaced from hand
+                // add new pieces to hand (id of piece, and number of pieces)
+                // update tiles
+
+                 
+                
+                //handWithOutRemovedElementsThatWerePlayedLastTurn it is our new state
+                let removeFromHand = 
+                    List.fold (fun acc (_, (id, (_, _)))  -> MultiSet.removeSingle id acc) st.hand piecesPlaced //remove id tile
+                debugPrint(sprintf "removeFromHand %A\n" removeFromHand)
+                
+                let updateHand = 
+                    List.fold (fun acc (c, _) -> MultiSet.addSingle c acc) removeFromHand newPieces //should add the new hand
+                debugPrint(sprintf "updatedHand %A\n" updateHand)
+                
+                let newTiles = updateTiles piecesPlaced st.tiles
+                debugPrint(sprintf "newTiles %A\n" newTiles)
+                //får moves, får tiles
+                debugPrint(sprintf "calling getStarters wiht %A\n" (getStarters newTiles))
+                               
                 let st' = State.mkState 
                                 st.board 
                                 st.dict 
                                 st.playerNumber 
-                                st.hand 
+                                updateHand 
                                 false
-                                st.tiles
+                                newTiles
 
                 debugPrint("!!!!!!!!!!I have played a succesful move!!!!!!!!!!\n") // Th
                 aux st'
                 
             | RCM (CMPlayed (pid, ms, points)) ->
                 (* Successful play by other player. Update your state *)
+                // update tiles
+                let newTiles = updateTiles ms st.tiles
+                
                 let st' = State.mkState 
                             st.board 
                             st.dict 
                             st.playerNumber 
                             st.hand 
                             true 
-                            st.tiles // This state needs to be updated
+                            newTiles // This state needs to be updated
                 debugPrint("??????????They have played a succesful move????????????\n")
                 aux st'
                 
