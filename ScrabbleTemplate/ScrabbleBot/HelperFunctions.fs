@@ -36,7 +36,7 @@ module internal HelperFunctions =
 
 
     let checkDirection ((x,y) : coord) (tiles : tiles) (dx, dy) : bool =
-        debugPrint(sprintf "checking direction at %A\n" (x,y))
+        //debugPrint(sprintf "checking direction at %A\n" (x,y))
         checkIfTileIsEmpty (x+dx, y+dy) tiles && checkIfTileIsEmpty (x-dx, y-dy) tiles //we look to the right and the left
     
 

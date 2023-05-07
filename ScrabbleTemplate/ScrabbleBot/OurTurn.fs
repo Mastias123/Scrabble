@@ -48,91 +48,111 @@ let getRandomStartPosition tiles : coord*coord=
         let newStartPosAndDir = newStarters.[randomNumber.Next(0, newStarters.Length)]
         debugPrint(sprintf"newStartPos = %A\n" newStartPosAndDir)
         newStartPosAndDir
+let getRandomStartLetter list =
+        let rnd = System.Random()
+        let index = rnd.Next(0, List.length list)
+        List.item index list
 
-
-
-//my is the hand we have with the tiles,  d is the trie, coord is the coordinates on the board, dir is the upcoming directions on the board
-let findFirstWord (my : hand) (d : dict) (coord : coord) (dir : coord) : List<coord * (uint32 * (char * int))> =
-    let rec aux (currentHand : hand) (currentDict : dict) (currentWord : List<coord * (uint32 * (char * int))>) = 
-        
-        List.fold (fun (wordSoFar : List<coord * (uint32 * (char * int))>) (c : uint32) -> 
-            match Dictionary.step (uintToChar c) currentDict with 
-                | Some (b, d') -> //when we get a char  
-                    //debugPrint(sprintf "******Looking at  letter %A\n" c)
-                    
-                    //debugPrint(sprintf "Trying to remove new hand: %A\n" wordSoFar)
-                    let newhand = MultiSet.removeSingle c currentHand //removes the char from hand so we can look at the next
-                    //Use tile so when we call aux then give the next coordinat with an direction
-                    
-                    //Get old coordinate and direction
-                    //
-                    let (oldCoord, _) = List.head (List.rev currentWord)
-                    let (_,(oldId, (oldChar,oldPoint))) = List.head (List.rev currentWord)
-                    //Build list with coordinate id char and points
-                    let currentString = (oldCoord, (oldId,(oldChar,oldPoint)))::currentWord //current string is the string build so far from the acc 
-                    //debugPrint(sprintf "-----------------CurrentString is %A --------- CurrentWord is %A\n" currentString currentWord)
-                    //let currentWordString = List.fold (fun acc (_,(_,(ch,_)) ) -> ch::acc) [] currentString |> List.rev |> List.toArray |> System.String.Concat
-                    let LongestWordInBranch = aux (newhand) d' currentString //gives the new hand with the string
-                    //debugPrint(sprintf "Succesfull remove new hand: %A\n" wordSoFar)
-                    if(b && currentString.Length > LongestWordInBranch.Length && currentString.Length > wordSoFar.Length) //
+let findFirstWord (my : hand) (d : dict) ((x,y) : coord) ((dx,dy) : coord) (startPositions :List<(coord*char)*(coord)>) : List<coord * (uint32 * (char * int))> =   
+    debugPrint(sprintf "startPositions are %A\n\n" startPositions)
+    let startLetter  =
+        List.fold (fun acc ((tempCoord, tempChar), _) -> 
+            match Dictionary.step tempChar d with 
+                | None -> acc
+                | Some (b, _) -> 
+                    if(b)
                     then
-                        //Then return our string
-                        //debugPrint( sprintf "The boolean is true, current word is %A\n" (currentString))
-                        currentString 
-                        //currentWordString
-                    elif (LongestWordInBranch.Length > currentWord.Length) then
-                        //debugPrint( sprintf "The boolean is true when word > currentword, current word is %A\n" (currentString))
-                        LongestWordInBranch
-                        //currentString
+                        acc
                     else 
-                        //Steps up in the dictionary with a new char
-                        //debugPrint( sprintf "The boolean is false,%A\n" (wordSoFar))
-                        wordSoFar
-                        
-
-                | None -> //when the char is a leaf none beneth it 
-                    //debugPrint( sprintf "None %A\n" wordSoFar)
-                    //(wordSoFar + string (uintToChar c))
-                    wordSoFar
-                    //aux currentHand d (wordSoFar.Substring (wordSoFar.Length - 1))
-            //Call Dict step on c
-            // Match that with Some and None
-                //If some call aux function with hand (with removed tile) the new dict d' ()
-                    //If some is (true, 'd) if wordsSoFar
-                //If none then return wordSoFar
+                        let pointOfFirstLetter = charToPoint (charToInteger tempChar)
+                        let newStartLetter = (tempCoord,((charToInteger tempChar), (tempChar, pointOfFirstLetter)))::acc
+                        debugPrint(sprintf "newStartLetter is %A \n" newStartLetter)
+                        newStartLetter                       
+        ) [] startPositions
         
-        ) [] (MultiSet.toList currentHand)      
-    aux my d []
+    //debugPrint(sprintf "**** startLetter is = %A\n" startLetter)
+    debugPrint(sprintf "coordinate is = %A\n" (x,y))
+    debugPrint(sprintf "direction is = %A\n" (dx,dy))
+    
 
-let continueNextWord (hand: hand) (dic: dict) (startpositions : List<(coord*char)*(coord)>) = 
+    let rec aux (currentHand : hand) (currentDict : dict) (currentWord : List<coord * (uint32 * (char * int))>) : List<coord * (uint32 * (char * int))>  = //currentWord er startListen
+        //debugPrint("calling aux\n")
+            // | H | E | J |
+            // |   |   | E |
+            // |   |   | G |
+            // CurrentWord = [J,..]
+        let newCoord = 
+            if(currentWord.IsEmpty) 
+            then 
+            //Maybe change
+                (0,0)
+            else 
+                ((fst (fst (List.head currentWord))) + dx), ((snd (fst (List.head currentWord))) + dy)
+        //debugPrint("Calling aux\n")
+        //debugPrint(sprintf "********currentWord is %A\n" currentWord)
+        List.fold(fun (wordSoFar : List<coord * (uint32 * (char * int))>) (currentChar : uint32) -> 
+            match Dictionary.step (uintToChar currentChar) currentDict with 
+                | None -> 
+                    //debugPrint(sprintf "None \n")
+                    //debugPrint(sprintf "------------- wordSoFar is = %A \n" wordSoFar)
+                    wordSoFar //wordSoFar
+                | Some (b, d') ->
+                    //debugPrint(sprintf "currentChar is %A\n" (uintToChar currentChar))
+            
+                    let newhand = MultiSet.removeSingle currentChar currentHand 
+                    //debugPrint(sprintf "newhand is %A \n" newhand)
+                    
+                    
+                    let currentLetter = (newCoord, ((charToInteger (uintToChar currentChar)), ((uintToChar currentChar), (charToPoint currentChar))))
+                    //debugPrint(sprintf "newLetter is %A \n" currentLetter)
+                    let currentString = [currentLetter] @ currentWord 
 
-    List.fold (fun acc ((coord, _), dir) -> 
-        let (x,y) = coord
-        let (dx,dy) = dir
-        let newCoord = (x+dx, y+dy)
-        let newDir = dir
-        let newWord = findFirstWord hand dic newCoord newDir
-        newWord::acc
-    ) [] startpositions
-    //Call fold over startPositions
-    //Call step function on each startposition
-    //Find first word on each startPosition
-    //Find all possible words on each startPosition
-    //
+                    let longestWordInBranch = aux (newhand) d' currentString
+                    //let currentString = currentLetter::wordSoFar
+                    //let currentString = currentLetter::currentWord
 
-let placeOnBoard (word : List<coord * (uint32 * (char * int))>) (coordinate: coord) ((dx,dy) : coord) : List<(coord) * (uint32 * (char * int))> =
-    let rec aux (word' : List<coord * (uint32 * (char * int))>) ((x,y): coord) acc =
-        match word' with
-        | [] -> acc
-        | w ->
-            //let firstLetter = w[0]
-            let (_,(_, (char,_))) = List.head (List.rev word') 
-            let pointOfFirstLetter = charToPoint (charToInteger char)
-            aux word' (x+dx, y+dy) (((x,y), (charToInteger char, (char, pointOfFirstLetter)))::acc)
-            //aux word' (x+dx, y+dy) (((x,y), (charToInteger char, (firstLetter, pointOfFirstLetter)))::acc)
-    aux word coordinate []
+                    //let wordInBranch = aux (newhand) d' wordSoFar //gives the new hand with the string
+                    if(b && currentString.Length > longestWordInBranch.Length && currentString.Length > wordSoFar.Length) then
+                        //debugPrint(sprintf "currentString is = %A \n" currentString)
+                        currentString                    
+                    elif (longestWordInBranch.Length > currentWord.Length) then
+                        longestWordInBranch 
+                    else
+                        //debugPrint("b is false\n")
+                        wordSoFar
+                                                  
+        ) startLetter (MultiSet.toList currentHand) 
+    aux my d startLetter
+    
+let placeOnBoard (word : List<coord * (uint32 * (char * int))>) : List<(coord) * (uint32 * (char * int))> =
+    debugPrint("call placeOnBoard \n")
+    word
+    // let rec aux (word' : List<coord * (uint32 * (char * int))>) acc =
+    //     match word' with
+    //     | [] -> 
+    //         debugPrint("return acc\n")
+    //         acc
+    //     | _ ->
+    //         debugPrint("call placeOnBoard aux againg\n")
+    //         //let firstLetter = w[0]
+    //         let (coord,(id, (char,point))) = List.head (List.rev word') 
+    //         //let pointOfFirstLetter = charToPoint (charToInteger char)
+    //         aux word' ((coord,(id, (char, point)))::acc)
+    //         //aux word' (x+dx, y+dy) (((x,y), (charToInteger char, (firstLetter, pointOfFirstLetter)))::acc)
+    // aux word []
 
-    //Then try to create a word out of the first word
-    //let wordsToPlay = Dictionary.step firstTile d
+// let placeOnBoard (word : List<coord * (uint32 * (char * int))>) (coordinate: coord) ((dx,dy) : coord) : List<(coord) * (uint32 * (char * int))> =
+//     let rec aux (word' : List<coord * (uint32 * (char * int))>) ((x,y): coord) acc =
+//         match word' with
+//         | [] -> acc
+//         | w ->
+//             //let firstLetter = w[0]
+//             let (_,(_, (char,_))) = List.head (List.rev word') 
+//             let pointOfFirstLetter = charToPoint (charToInteger char)
+//             aux word' (x+dx, y+dy) (((x,y), (charToInteger char, (char, pointOfFirstLetter)))::acc)
+//             //aux word' (x+dx, y+dy) (((x,y), (charToInteger char, (firstLetter, pointOfFirstLetter)))::acc)
+//     aux word coordinate []
+
+
     
         

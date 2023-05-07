@@ -110,28 +110,21 @@ module Scrabble =
               
                 
             debugPrint("***************Now it's my turn to play**************\n") 
-            Print.printHand pieces (State.hand st)
+            //Print.printHand pieces (State.hand st)
             //let testHand = MultiSet.addSingle 1u MultiSet.empty |> MultiSet.addSingle 16u |> MultiSet.addSingle 5u
             //Print.printHand pieces testHand
-            //let move2 = findFirstWord testHand st.dict (0,0)
-            debugPrint(sprintf "calling getStarters wiht %A\n" (getStarters st.tiles))
+            //let move2 = findFirstWord testHand st.dict (0,0) (0,1) (getStarters st.tiles)
+            //debugPrint(sprintf "øøøøøøøøøøøøøøøøøøOurTurn found this    %A\n" move2)
+            //debugPrint(sprintf "calling getStarters wiht %A\n" (getStarters st.tiles))
+            let startPosAndDir = getRandomStartPosition st.tiles
 
-            let move2 = findFirstWord st.hand st.dict 
-            //debugPrint (sprintf "***output from getStarters call***  %A\n" move2)
+            let move2 = findFirstWord st.hand st.dict (fst startPosAndDir) (snd startPosAndDir) (getStarters st.tiles)
+            debugPrint (sprintf "***output from findFistWord call***  %A\n" move2)
+            //let position = (getRandomStartPosition st.tiles)
+            let placeMove = placeOnBoard move2 
+            debugPrint(sprintf "placeMove is %A\n" placeMove)
 
-            let startPosistionsCordsAndDirection = getRandomStartPosition st.tiles
-            let startPos = (fst(fst startPosistionsCordsAndDirection)),(snd(fst startPosistionsCordsAndDirection))
-            let startDir = snd startPosistionsCordsAndDirection
-            debugPrint(sprintf "startPos =  %A\n" startPos)
-            debugPrint(sprintf "startDir =  %A\n" startDir)
-            let starters = (getStarters st.tiles)
-            let wordToPlay = (continueNextWord st.hand st.dict starters)
-            let headOfWordToPlay = wordToPlay.Head
             
-            let placeMove = placeOnBoard headOfWordToPlay startPos startDir
-            debugPrint(sprintf "uuuuuuuuuuuuuup %A\n" placeMove)
-
-            debugPrint(sprintf "øøøøøøøøøøøøøøøøøøOurTurn found thisøøøøøøøøøøø %A\n" move2)
             forcePrint "Input move (format '(<x-coordinate> <y-coordinate> <piece id><character><point-value> )*', note the absence of space between the last inputs)\n\n"
             //let input =  System.Console.ReadLine()
             //let move = RegEx.parseMove input
