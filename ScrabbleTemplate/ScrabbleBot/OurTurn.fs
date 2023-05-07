@@ -52,10 +52,14 @@ let getRandomStartLetter list =
         let rnd = System.Random()
         let index = rnd.Next(0, List.length list)
         List.item index list
+//Vi kan få fat på startPositions hvor man skal lave et ord fra. 
+//Vi kan lægge et ord første gang
+//Men vi har problemer med at starte med at steppe ud fra en af startPositionerne efter et ord er blevet lagt.
+//Lige nu stepperen først med hele listen af startPositioner, men den skal kun gøre det udfra et af elementerne fra startPositionerne så vi kan bygge ordet.
 
 let findFirstWord (my : hand) (d : dict) ((x,y) : coord) ((dx,dy) : coord) (startPositions :List<(coord*char)*(coord)>) : List<coord * (uint32 * (char * int))> =   
     debugPrint(sprintf "startPositions are %A\n\n" startPositions)
-    let startLetter  =
+    let startLetters  =
         List.fold (fun acc ((tempCoord, tempChar), _) -> 
             match Dictionary.step tempChar d with 
                 | None -> acc
@@ -69,7 +73,9 @@ let findFirstWord (my : hand) (d : dict) ((x,y) : coord) ((dx,dy) : coord) (star
                         debugPrint(sprintf "newStartLetter is %A \n" newStartLetter)
                         newStartLetter                       
         ) [] startPositions
-        
+    
+    //let startElement = List.head startLetters  
+
     //debugPrint(sprintf "**** startLetter is = %A\n" startLetter)
     debugPrint(sprintf "coordinate is = %A\n" (x,y))
     debugPrint(sprintf "direction is = %A\n" (dx,dy))
@@ -121,8 +127,8 @@ let findFirstWord (my : hand) (d : dict) ((x,y) : coord) ((dx,dy) : coord) (star
                         //debugPrint("b is false\n")
                         wordSoFar
                                                   
-        ) startLetter (MultiSet.toList currentHand) 
-    aux my d startLetter
+        ) [] (MultiSet.toList currentHand) 
+    aux my d startLetters
     
 let placeOnBoard (word : List<coord * (uint32 * (char * int))>) : List<(coord) * (uint32 * (char * int))> =
     debugPrint("call placeOnBoard \n")
