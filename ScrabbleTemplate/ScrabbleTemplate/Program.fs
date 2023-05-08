@@ -53,9 +53,9 @@ let main argv =
     let (dictionary, time) =
         time (fun () -> ScrabbleUtil.Dictionary.mkDict words dictAPI)
     
-    let players    = [("Oh my Step-function", dictionary, NoStepFunction.Scrabble.startGame); "oxygøgl", dictionary, Oxyphenbutazone.Scrabble.startGame]
+    //let players    = [("Oh my Step-function", dictionary, NoStepFunction.Scrabble.startGame); "oxygøgl", dictionary, Oxyphenbutazone.Scrabble.startGame]
     //let players    = [("Oh my Step-function", dictionary, NoStepFunction.Scrabble.startGame)]
-    //let players    = [("Oh my Step-function", dictionary, NoStepFunction.Scrabble.startGame); ("Oh my Step-function2", dictionary, NoStepFunction.Scrabble.startGame)]
+    let players    = [("Oh my Step-function", dictionary, NoStepFunction.Scrabble.startGame); ("Oh my Step-function2", dictionary, NoStepFunction.Scrabble.startGame)]
     // let players = [spawnMultiples "OxyphenButazone" dictionary Oxyphenbutazone.Scrabble.startGame 1; spawnMultiples "NoStepFunction" dictionary NoStepFunction.Scrabble.startGame 1]
     
     //last 

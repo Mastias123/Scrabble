@@ -49,18 +49,20 @@ module State =
         dict          : ScrabbleUtil.Dictionary.Dict
         playerNumber  : uint32
         hand          : MultiSet.MultiSet<uint32>
-        myTurn        : bool
+        numOfPlayers  : uint32
+        playerTurn    : uint32
         tiles         : Map<coord , char>
         //positionAvalible: bool
     }
 
-    let mkState b d pn h my t= {board = b; dict = d;  playerNumber = pn; hand = h ; myTurn = my; tiles = t}
+    let mkState b d pn h np pt t= {board = b; dict = d;  playerNumber = pn; hand = h ; numOfPlayers = np ; playerTurn = pt; tiles = t}
     //positionAvalible = pa
     let board st         = st.board
     let dict st          = st.dict
     let playerNumber st  = st.playerNumber
     let hand st          = st.hand
-    let myTurn st = st.myTurn
+    let numOfPlayers st  = st.numOfPlayers
+    let playerTurn st    = st.playerTurn
     //let positionAvalible st = st.positionAvalible
 
     
@@ -71,89 +73,55 @@ module Scrabble =
     let updateTiles ms tiles = 
         List.fold (fun acc (coord, (_, (char, _))) -> Map.add coord char acc) tiles ms
     let playGame cstream pieces (st : State.state) =
-
         let rec aux (st : State.state) =
-            // if(st.myTurn) 
-            //     then 
-            //     debugPrint("***************Now it's my turn to play**************\n") 
-            //     Print.printHand pieces (State.hand st)
-            //     //let testHand = MultiSet.addSingle 1u MultiSet.empty |> MultiSet.addSingle 16u |> MultiSet.addSingle 5u
-            //     //Print.printHand pieces testHand
-            //     //let move2 = findFirstWord testHand st.dict (0,0)
-            //     debugPrint(sprintf "calling getStarters wiht %A\n" (getStarters st.tiles))
+            match st.playerNumber with
+                |_ when st.playerTurn = st.playerNumber ->
+                    debugPrint("***************Now it's my turn to play**************\n") 
+                    //Print.printHand pieces (State.hand st)
+                    //let testHand = MultiSet.addSingle 1u MultiSet.empty |> MultiSet.addSingle 16u |> MultiSet.addSingle 5u
+                    //Print.printHand pieces testHand
+                    //let move2 = findFirstWord testHand st.dict (0,0) (0,1) (getStarters st.tiles)
+                    //debugPrint(sprintf "øøøøøøøøøøøøøøøøøøOurTurn found this    %A\n" move2)
+                    //debugPrint(sprintf "calling getStarters wiht %A\n" (getStarters st.tiles))
+                    debugPrint(sprintf "--------------------------------------------\n")
+                    debugPrint (sprintf "ST.TILES IS %A\n" st.tiles)
+                    debugPrint(sprintf "--------------------------------------------\n")
+                    debugPrint(sprintf "ooooooooooooooooooooooooooooooooooooooooooooo\n")
+                    debugPrint (sprintf "GETSTARTERS IS %A\n" (getStarters st.tiles))
+                    debugPrint(sprintf "ooooooooooooooooooooooooooooooooooooooooooooo\n")
 
-            //     let move2 = findFirstWord st.hand st.dict (getStarters st.tiles) 
-            //     debugPrint (sprintf "***output from getStarters call***  %A\n" move2)
+                    let move2 = continueWord st.hand st.dict (getStarters st.tiles) st.tiles
+                    debugPrint (sprintf "***output from findFistWord call***  %A\n" move2)
+                    //let position = (getRandomStartPosition st.tiles)
+                    let placeMove = placeOnBoard move2 
+                    debugPrint(sprintf "placeMove is %A\n" placeMove)
 
-            //     let startPosistionsCordsAndDirection = getRandomStartPosition st.tiles
-            //     let startPos = (fst(fst startPosistionsCordsAndDirection)),(snd(fst startPosistionsCordsAndDirection)-1)
-            //     let startDir = snd startPosistionsCordsAndDirection
-            //     debugPrint(sprintf "startPos =  %A\n" startPos)
-            //     debugPrint(sprintf "startDir =  %A\n" startDir)
-                
-            //     let placeMove = placeOnBoard move2 startPos startDir
-            //     debugPrint(sprintf "uuuuuuuuuuuuuup %A\n" placeMove)
+                    
+                    forcePrint "Input move (format '(<x-coordinate> <y-coordinate> <piece id><character><point-value> )*', note the absence of space between the last inputs)\n\n"
+                    //let input =  System.Console.ReadLine()
+                    //let move = RegEx.parseMove input
+                    let move = placeMove
+                    
+                    debugPrint (sprintf "Player %d -> Server:\n%A\n" (State.playerNumber st) move) // keep the debug lines. They are useful.
+                    //send cstream (SMPlay move)
+                    
 
-            //     debugPrint(sprintf "øøøøøøøøøøøøøøøøøøOurTurn found thisøøøøøøøøøøø %A\n" move2)
-            //     forcePrint "Input move (format '(<x-coordinate> <y-coordinate> <piece id><character><point-value> )*', note the absence of space between the last inputs)\n\n"
-            //     //let input =  System.Console.ReadLine()
-            //     //let move = RegEx.parseMove input
-            //     let move = placeMove
-                
-            //     debugPrint (sprintf "Player %d -> Server:\n%A\n" (State.playerNumber st) move) // keep the debug lines. They are useful.
-            //     //send cstream (SMPlay move)
-            //     send cstream (SMPlay move)
-            //     debugPrint (sprintf "Player %d <- Server:\n%A\n" (State.playerNumber st) move)
-            
-            // else debugPrint("---------------It's not my turn to play------------------\n")
+                    if (List.length placeMove = 0 && MultiSet.size st.hand = 7u) then 
+                        debugPrint("################## CHANGING HAND ##################\n")
+                        send cstream (SMChange (MultiSet.toList st.hand))
+                    elif(List.length placeMove = 0 && MultiSet.size st.hand < 7u) then
+                        debugPrint("################## PASSING TURN CANNOT PLACE WORDS ##################\n")
+                        send cstream (SMPass)
+                    else 
+                        send cstream (SMPlay move)
+                    
+
+                    debugPrint (sprintf "Player %d <- Server:\n%A\n" (State.playerNumber st) move)
+                | _ -> 
+                    debugPrint("----------------------Its not my my turn to play----------------------\n") 
             
               
-            if(st.myTurn) 
-            then     
-                debugPrint("***************Now it's my turn to play**************\n") 
-                //Print.printHand pieces (State.hand st)
-                //let testHand = MultiSet.addSingle 1u MultiSet.empty |> MultiSet.addSingle 16u |> MultiSet.addSingle 5u
-                //Print.printHand pieces testHand
-                //let move2 = findFirstWord testHand st.dict (0,0) (0,1) (getStarters st.tiles)
-                //debugPrint(sprintf "øøøøøøøøøøøøøøøøøøOurTurn found this    %A\n" move2)
-                //debugPrint(sprintf "calling getStarters wiht %A\n" (getStarters st.tiles))
-                debugPrint(sprintf "--------------------------------------------\n")
-                debugPrint (sprintf "ST.TILES IS %A\n" st.tiles)
-                debugPrint(sprintf "--------------------------------------------\n")
-                debugPrint(sprintf "ooooooooooooooooooooooooooooooooooooooooooooo\n")
-                debugPrint (sprintf "GETSTARTERS IS %A\n" (getStarters st.tiles))
-                debugPrint(sprintf "ooooooooooooooooooooooooooooooooooooooooooooo\n")
-
-                let move2 = continueWord st.hand st.dict (getStarters st.tiles) st.tiles
-                debugPrint (sprintf "***output from findFistWord call***  %A\n" move2)
-                //let position = (getRandomStartPosition st.tiles)
-                let placeMove = placeOnBoard move2 
-                debugPrint(sprintf "placeMove is %A\n" placeMove)
-
-                
-                forcePrint "Input move (format '(<x-coordinate> <y-coordinate> <piece id><character><point-value> )*', note the absence of space between the last inputs)\n\n"
-                //let input =  System.Console.ReadLine()
-                //let move = RegEx.parseMove input
-                let move = placeMove
-                
-                debugPrint (sprintf "Player %d -> Server:\n%A\n" (State.playerNumber st) move) // keep the debug lines. They are useful.
-                //send cstream (SMPlay move)
-                
-
-                if (List.length placeMove = 0 && MultiSet.size st.hand = 7u) then 
-                    debugPrint("################## CHANGING HAND ##################\n")
-                    send cstream (SMChange (MultiSet.toList st.hand))
-                elif(List.length placeMove = 0 && MultiSet.size st.hand < 7u) then
-                    debugPrint("################## PASSING TURN ##################\n")
-                    send cstream (SMPass)
-                else 
-                    send cstream (SMPlay move)
-                
-
-                debugPrint (sprintf "Player %d <- Server:\n%A\n" (State.playerNumber st) move)
-            else debugPrint("---------------It's not my turn to play------------------\n")
-            
-                // remove the force print when you move on from manual input (or when you have learnt the format)
+            let nextPlayer = (st.playerTurn)%(st.numOfPlayers) + (uint32) 1
             let msg = recv cstream
             
             // keep the debug lines. They are useful.
@@ -177,13 +145,14 @@ module Scrabble =
                 debugPrint(sprintf "newTiles %A\n" newTiles)
                 //får moves, får tiles
                 debugPrint(sprintf "calling getStarters wiht %A\n" (getStarters newTiles))
-                            
+           
                 let st' = State.mkState 
                                 st.board 
                                 st.dict 
                                 st.playerNumber 
                                 updateHand 
-                                false
+                                st.numOfPlayers
+                                nextPlayer
                                 newTiles
 
                 debugPrint("!!!!!!!!!!I have played a succesful move!!!!!!!!!!\n") // Th
@@ -193,13 +162,15 @@ module Scrabble =
             | RCM (CMPlayed (pid, ms, points)) ->
                 (* Successful play by other player. Update your state *)
                 // update tiles
+                
                 let newTiles = updateTiles ms st.tiles
                 let st' = State.mkState 
                             st.board 
                             st.dict 
                             st.playerNumber 
                             st.hand 
-                            true 
+                            st.numOfPlayers
+                            nextPlayer
                             newTiles // This state needs to be updated
                 debugPrint("??????????They have played a succesful move????????????\n")
                 aux st'
@@ -208,25 +179,33 @@ module Scrabble =
                 (* Failed play. Update your state *)
 
                 let newTiles = updateTiles ms st.tiles
-                if(st.myTurn) 
-                then
-                    let st' = State.mkState 
-                                st.board 
-                                st.dict 
-                                st.playerNumber 
-                                st.hand 
-                                true 
-                                newTiles
-                    debugPrint("xxxxxxxxx You have failed a move\n")
-                    aux st'
+                match st.playerNumber with
+                    |_ when st.playerTurn = st.playerNumber ->
+                        let st' = State.mkState 
+                                    st.board 
+                                    st.dict 
+                                    st.playerNumber 
+                                    st.hand 
+                                    st.numOfPlayers
+                                    nextPlayer 
+                                    newTiles
+                        debugPrint("xxxxxxxxx You have failed a move\n")
+                        aux st'
 
-                else
-                    let st' = State.mkState st.board st.dict st.playerNumber st.hand false st.tiles
-                    debugPrint "xxxxxxxxxx They have failed a move\n"
-                    aux st'
-                      
-
+                    |_ ->
+                        let st' = State.mkState 
+                                    st.board 
+                                    st.dict 
+                                    st.playerNumber 
+                                    st.hand 
+                                    st.numOfPlayers
+                                    nextPlayer 
+                                    st.tiles
+                        debugPrint "xxxxxxxxxx They have failed a move\n"
+                        aux st'
+            
             | RCM (CMGameOver _) -> ()
+            
             | RCM a -> failwith (sprintf "not implmented: %A" a)
             | RGPE err -> printfn "Gameplay Error:\n%A" err; aux st
            
@@ -257,5 +236,7 @@ module Scrabble =
                   
         let handSet = List.fold (fun acc (x, k) -> MultiSet.add x k acc) MultiSet.empty hand
 
-        fun () -> playGame cstream tiles (State.mkState board dict playerNumber handSet (playerNumber = playerTurn) Map.empty)
+        let numOfPlayers = numPlayers
+
+        fun () -> playGame cstream tiles (State.mkState board dict playerNumber handSet numOfPlayers playerTurn Map.empty)
         
