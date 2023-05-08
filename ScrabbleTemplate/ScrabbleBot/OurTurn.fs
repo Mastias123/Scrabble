@@ -77,23 +77,7 @@ let getStarters (tiles : tiles) : List<(coord*char)*(coord)> =
     horizontel@vetical
 
 
-let getRandomStartPosition tiles : coord*coord=
-    let starters = getStarters tiles
-    if (starters.IsEmpty)
-    then 
-        let defaultPosition = coord(0,0), coord(1,0)
-        defaultPosition 
-    else
-        let newStarters = 
-            List.fold (fun acc ((coord, _), dir) -> (coord,dir)::acc) [] starters  
-        let randomNumber = System.Random()
-        let newStartPosAndDir = newStarters.[randomNumber.Next(0, newStarters.Length)]
-        //debugPrint(sprintf"newStartPos = %A\n" newStartPosAndDir)
-        newStartPosAndDir
-let getRandomStartLetter list =
-        let rnd = System.Random()
-        let index = rnd.Next(0, List.length list)
-        List.item index list
+
 //Vi kan få fat på startPositions hvor man skal lave et ord fra. 
 //Vi kan lægge et ord første gang
 //Men vi har problemer med at starte med at steppe ud fra en af startPositionerne efter et ord er blevet lagt.
@@ -120,7 +104,8 @@ let getRandomStartLetter list =
     //Skulle den  retunere en Liste af en liste
 
 
-let findFirstWord (my : hand) (d : dict) ((dx,dy) : coord) (startOfWord : List<coord * (uint32 * (char * int))>) : List<coord * (uint32 * (char * int))> = 
+let findFirstWord (my : hand) (d : dict) ((dx,dy) : coord) (startOfWord : List<coord * (uint32 * (char * int))>) (tiles : tiles) : List<coord * (uint32 * (char * int))> = 
+    debugPrint(sprintf "\n startOfWord is %A\n" startOfWord)
     let rec aux (currentHand : hand) (currentDict : dict) (currentWord : List<coord * (uint32 * (char * int))>) : List<coord * (uint32 * (char * int))>  = 
 
         //debugPrint("Calling aux\n")
@@ -133,43 +118,105 @@ let findFirstWord (my : hand) (d : dict) ((dx,dy) : coord) (startOfWord : List<c
                             (0,0)
                         else 
                             ((fst (fst (List.head currentWord))) + dx), ((snd (fst (List.head currentWord))) + dy)
-            
+            //debugPrint(sprintf "newCoord is %A\n" newCoord)
+            if(dx > dy) //horizontal
+            then 
+                //debugPrint(sprintf "horizontal with %A\n " (uintToChar currentChar))
+                //debugPrint(sprintf "currentChar is %A\n" (uintToChar currentChar))
+                match checkDownDirection newCoord tiles down with
+                    | true ->
+                        match checkRightDirection newCoord tiles right with
+                        | true ->
+                            match checkUpDirection newCoord tiles up with
+                            | true -> 
+                                match Dictionary.step (uintToChar currentChar) currentDict with 
+                                | None -> 
+                                    //debugPrint(sprintf "None \n")
+                                    //debugPrint(sprintf "------------- wordSoFar is = %A \n" wordSoFar)
+                                    wordSoFar //wordSoFar
+                                | Some (b, d') ->
+                                    //debugPrint(sprintf "currentChar is %A\n" (uintToChar currentChar))
+                                    
 
-            match Dictionary.step (uintToChar currentChar) currentDict with 
-                | None -> 
-                    //debugPrint(sprintf "None \n")
-                    //debugPrint(sprintf "------------- wordSoFar is = %A \n" wordSoFar)
-                    wordSoFar //wordSoFar
-                | Some (b, d') ->
-                    //debugPrint(sprintf "currentChar is %A\n" (uintToChar currentChar))
-                    
+                                    let newhand = MultiSet.removeSingle currentChar currentHand 
+                                    //debugPrint(sprintf "newhand is %A \n" newhand)
+                                    
+                                    
+                                    let currentLetter = (newCoord, ((charToInteger (uintToChar currentChar)), ((uintToChar currentChar), (charToPoint currentChar))))
+                                    //debugPrint(sprintf "newLetter is %A \n" currentLetter)
+                                    let currentString = [currentLetter] @ currentWord 
 
-                    let newhand = MultiSet.removeSingle currentChar currentHand 
-                    //debugPrint(sprintf "newhand is %A \n" newhand)
-                    
-                    
-                    let currentLetter = (newCoord, ((charToInteger (uintToChar currentChar)), ((uintToChar currentChar), (charToPoint currentChar))))
-                    //debugPrint(sprintf "newLetter is %A \n" currentLetter)
-                    let currentString = [currentLetter] @ currentWord 
+                                    let longestWordInBranch = aux (newhand) d' currentString
+                                    //let currentString = currentLetter::wordSoFar
+                                    //let currentString = currentLetter::currentWord
 
-                    let longestWordInBranch = aux (newhand) d' currentString
-                    //let currentString = currentLetter::wordSoFar
-                    //let currentString = currentLetter::currentWord
-
-                    //let wordInBranch = aux (newhand) d' wordSoFar //gives the new hand with the string
-                    if(b && currentString.Length > longestWordInBranch.Length && currentString.Length > wordSoFar.Length) then
-                        //debugPrint(sprintf "currentString is = %A \n" currentString)
-                        currentString                    
-                    elif (longestWordInBranch.Length > currentWord.Length) then
-                        longestWordInBranch 
-                    else
-                        //debugPrint("b is false\n")
+                                    //let wordInBranch = aux (newhand) d' wordSoFar //gives the new hand with the string
+                                    if(b && currentString.Length > longestWordInBranch.Length && currentString.Length > wordSoFar.Length) then
+                                        //debugPrint(sprintf "currentString is = %A \n" currentString)
+                                        currentString                    
+                                    elif (longestWordInBranch.Length > currentWord.Length) then
+                                        longestWordInBranch 
+                                    else
+                                        //debugPrint("b is false\n")
+                                        wordSoFar
+                            | false ->
+                                wordSoFar
+                        | false -> 
+                            wordSoFar
+                    | false ->
                         wordSoFar
-                                                  
+            else //vertical
+                //debugPrint(sprintf "vertical with %A\n " (uintToChar currentChar))
+                //debugPrint(sprintf "currentChar is %A\n" (uintToChar currentChar))
+                match checkDownDirection newCoord tiles down with
+                    | true ->
+                        match checkRightDirection newCoord tiles right with
+                        | true ->
+                            match checkLeftDirection newCoord tiles left with
+                            | true -> 
+                                match Dictionary.step (uintToChar currentChar) currentDict with 
+                                | None -> 
+                                    //debugPrint(sprintf "None \n")
+                                    //debugPrint(sprintf "------------- wordSoFar is = %A \n" wordSoFar)
+                                    wordSoFar //wordSoFar
+                                | Some (b, d') ->
+                                    //debugPrint(sprintf "currentChar is %A\n" (uintToChar currentChar))
+                                    
+
+                                    let newhand = MultiSet.removeSingle currentChar currentHand 
+                                    //debugPrint(sprintf "newhand is %A \n" newhand)
+                                    
+                                    
+                                    let currentLetter = (newCoord, ((charToInteger (uintToChar currentChar)), ((uintToChar currentChar), (charToPoint currentChar))))
+                                    //debugPrint(sprintf "newLetter is %A \n" currentLetter)
+                                    let currentString = [currentLetter] @ currentWord 
+
+                                    let longestWordInBranch = aux (newhand) d' currentString
+                                    //let currentString = currentLetter::wordSoFar
+                                    //let currentString = currentLetter::currentWord
+
+                                    //let wordInBranch = aux (newhand) d' wordSoFar //gives the new hand with the string
+                                    if(b && currentString.Length > longestWordInBranch.Length && currentString.Length > wordSoFar.Length) then
+                                        //debugPrint(sprintf "currentString is = %A \n" currentString)
+                                        currentString                    
+                                    elif (longestWordInBranch.Length > currentWord.Length) then
+                                        longestWordInBranch 
+                                    else
+                                        //debugPrint("b is false\n")
+                                        wordSoFar
+                            | false ->
+                                wordSoFar
+                        | false -> 
+                            wordSoFar
+                    | false ->
+                        wordSoFar
+            
+            
+                                             
         ) [] (MultiSet.toList currentHand) 
     aux my d startOfWord
 
-let continueWord (my : hand) (d : dict) (startPositions :  List<(coord*char)*coord>) : List<coord * (uint32 * (char * int))> =
+let continueWord (my : hand) (d : dict) (startPositions :  List<(coord*char)*coord>) (tiles : tiles) : List<coord * (uint32 * (char * int))> =
     //debugPrint("calling continueWord aux\n")
     let startPos =(List.rev startPositions)
     debugPrint(sprintf "\n*****************************\n")
@@ -178,16 +225,13 @@ let continueWord (my : hand) (d : dict) (startPositions :  List<(coord*char)*coo
     //debugPrint(sprintf "startPos are %A\n" startPos)
     if (startPositions.IsEmpty)
     then 
-        findFirstWord my d (1,0) [] 
-    else
-        
+        findFirstWord my d (1,0) [] tiles
+    else 
         let rec aux (currentHand : hand) (currentDict : dict)  : List<coord * (uint32 * (char * int))>= 
             List.fold (fun (wordSoFar : List<coord * (uint32 * (char * int))>) ((coord,char), dir) ->
                 //debugPrint(sprintf "current char is %A\n" char)
                 //debugPrint("calling continueWord fold\n")
                 //let startLetter = ((coord),((charToInteger (char)), ((char), (char)))) 
-              
-            
                 match Dictionary.step char currentDict with 
                 | None ->
                     wordSoFar
@@ -195,7 +239,8 @@ let continueWord (my : hand) (d : dict) (startPositions :  List<(coord*char)*coo
                     //debugPrint(sprintf "findingFirstWord\n")
                     let startLetter : List<coord * (uint32 * (char * int))> = [(coord, ((charToInteger char),(char, (charToPoint (charToInteger char)))))]
                     debugPrint(sprintf "\nstartLetter is %A\n" startLetter) 
-                    let result = findFirstWord currentHand d' dir startLetter
+                    debugPrint(sprintf "\ncoord is %A\n" coord) 
+                    let result = findFirstWord currentHand d' dir startLetter tiles
                     debugPrint(sprintf "\nresult is %A\n\n" result) 
                     //debugPrint(sprintf "result is %A\n" result)
                     let word = result.[0..result.Length-2]

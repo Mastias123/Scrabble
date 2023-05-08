@@ -41,8 +41,15 @@ module internal HelperFunctions =
     let checkRightDirection ((x,y) : coord) (tiles : tiles) (dx, dy) : bool = 
         let emptyResult = checkIfTileIsEmpty (x+dx, y+dy) tiles
         emptyResult
-
+    
+    let checkLeftDirection ((x,y) : coord) (tiles : tiles) (dx, dy) : bool = 
+        let emptyResult = checkIfTileIsEmpty (x+dx, y+dy) tiles
+        emptyResult
     let checkDownDirection ((x,y) : coord) (tiles : tiles) (dx, dy) : bool = 
+        let emptyResult = checkIfTileIsEmpty (x+dx, y+dy) tiles
+        emptyResult
+    
+    let checkUpDirection ((x,y) : coord) (tiles : tiles) (dx, dy) : bool = 
         let emptyResult = checkIfTileIsEmpty (x+dx, y+dy) tiles
         emptyResult
     

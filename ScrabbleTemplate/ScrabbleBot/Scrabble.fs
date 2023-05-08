@@ -108,50 +108,50 @@ module Scrabble =
             // else debugPrint("---------------It's not my turn to play------------------\n")
             
               
-            //if(st.myTurn) 
-            //then     
-            debugPrint("***************Now it's my turn to play**************\n") 
-            //Print.printHand pieces (State.hand st)
-            //let testHand = MultiSet.addSingle 1u MultiSet.empty |> MultiSet.addSingle 16u |> MultiSet.addSingle 5u
-            //Print.printHand pieces testHand
-            //let move2 = findFirstWord testHand st.dict (0,0) (0,1) (getStarters st.tiles)
-            //debugPrint(sprintf "øøøøøøøøøøøøøøøøøøOurTurn found this    %A\n" move2)
-            //debugPrint(sprintf "calling getStarters wiht %A\n" (getStarters st.tiles))
-            debugPrint(sprintf "--------------------------------------------\n")
-            debugPrint (sprintf "ST.TILES IS %A\n" st.tiles)
-            debugPrint(sprintf "--------------------------------------------\n")
-            debugPrint(sprintf "ooooooooooooooooooooooooooooooooooooooooooooo\n")
-            debugPrint (sprintf "GETSTARTERS IS %A\n" (getStarters st.tiles))
-            debugPrint(sprintf "ooooooooooooooooooooooooooooooooooooooooooooo\n")
+            if(st.myTurn) 
+            then     
+                debugPrint("***************Now it's my turn to play**************\n") 
+                //Print.printHand pieces (State.hand st)
+                //let testHand = MultiSet.addSingle 1u MultiSet.empty |> MultiSet.addSingle 16u |> MultiSet.addSingle 5u
+                //Print.printHand pieces testHand
+                //let move2 = findFirstWord testHand st.dict (0,0) (0,1) (getStarters st.tiles)
+                //debugPrint(sprintf "øøøøøøøøøøøøøøøøøøOurTurn found this    %A\n" move2)
+                //debugPrint(sprintf "calling getStarters wiht %A\n" (getStarters st.tiles))
+                debugPrint(sprintf "--------------------------------------------\n")
+                debugPrint (sprintf "ST.TILES IS %A\n" st.tiles)
+                debugPrint(sprintf "--------------------------------------------\n")
+                debugPrint(sprintf "ooooooooooooooooooooooooooooooooooooooooooooo\n")
+                debugPrint (sprintf "GETSTARTERS IS %A\n" (getStarters st.tiles))
+                debugPrint(sprintf "ooooooooooooooooooooooooooooooooooooooooooooo\n")
 
-            let move2 = continueWord st.hand st.dict (getStarters st.tiles)
-            debugPrint (sprintf "***output from findFistWord call***  %A\n" move2)
-            //let position = (getRandomStartPosition st.tiles)
-            let placeMove = placeOnBoard move2 
-            debugPrint(sprintf "placeMove is %A\n" placeMove)
+                let move2 = continueWord st.hand st.dict (getStarters st.tiles) st.tiles
+                debugPrint (sprintf "***output from findFistWord call***  %A\n" move2)
+                //let position = (getRandomStartPosition st.tiles)
+                let placeMove = placeOnBoard move2 
+                debugPrint(sprintf "placeMove is %A\n" placeMove)
 
-            
-            forcePrint "Input move (format '(<x-coordinate> <y-coordinate> <piece id><character><point-value> )*', note the absence of space between the last inputs)\n\n"
-            //let input =  System.Console.ReadLine()
-            //let move = RegEx.parseMove input
-            let move = placeMove
-            
-            debugPrint (sprintf "Player %d -> Server:\n%A\n" (State.playerNumber st) move) // keep the debug lines. They are useful.
-            //send cstream (SMPlay move)
-            
+                
+                forcePrint "Input move (format '(<x-coordinate> <y-coordinate> <piece id><character><point-value> )*', note the absence of space between the last inputs)\n\n"
+                //let input =  System.Console.ReadLine()
+                //let move = RegEx.parseMove input
+                let move = placeMove
+                
+                debugPrint (sprintf "Player %d -> Server:\n%A\n" (State.playerNumber st) move) // keep the debug lines. They are useful.
+                //send cstream (SMPlay move)
+                
 
-            if (List.length placeMove = 0 && MultiSet.size st.hand = 7u) then 
-                debugPrint("################## CHANGING HAND ##################\n")
-                send cstream (SMChange (MultiSet.toList st.hand))
-            elif(List.length placeMove = 0 && MultiSet.size st.hand < 7u) then
-                debugPrint("################## PASSING TURN ##################\n")
-                send cstream (SMPass)
-            else 
-                send cstream (SMPlay move)
-            
+                if (List.length placeMove = 0 && MultiSet.size st.hand = 7u) then 
+                    debugPrint("################## CHANGING HAND ##################\n")
+                    send cstream (SMChange (MultiSet.toList st.hand))
+                elif(List.length placeMove = 0 && MultiSet.size st.hand < 7u) then
+                    debugPrint("################## PASSING TURN ##################\n")
+                    send cstream (SMPass)
+                else 
+                    send cstream (SMPlay move)
+                
 
-            debugPrint (sprintf "Player %d <- Server:\n%A\n" (State.playerNumber st) move)
-            //else debugPrint("---------------It's not my turn to play------------------\n")
+                debugPrint (sprintf "Player %d <- Server:\n%A\n" (State.playerNumber st) move)
+            else debugPrint("---------------It's not my turn to play------------------\n")
             
                 // remove the force print when you move on from manual input (or when you have learnt the format)
             let msg = recv cstream
