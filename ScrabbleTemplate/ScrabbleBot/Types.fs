@@ -15,5 +15,9 @@ module internal Types =
 
     let right = (1,0) : coord
     let down = (0,1) : coord
+    let downLeft = (-1, 1) : coord
+    let downRight = (1,1) : coord
+
+    let upRigt = (1,-1): coord
 
     

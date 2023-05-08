@@ -23,8 +23,13 @@ let getStarters (tiles : tiles) : List<(coord*char)*(coord)> =
                 |true -> 
                     match checkDownDirection (x+1,y ) tiles down with
                     |true -> 
+                        match checkUpRightDirection (x,y) tiles upRigt with
+                        |true -> 
                         //debugPrint("horizontel SECOND TRUE\n")
-                        (((x,y), c), right)::acc 
+                            (((x,y), c), right)::acc 
+                        |false -> 
+                            acc
+                        //debugPrint("horizontel SECOND TRUE\n")
                     |false -> 
                         acc
                 |false ->
@@ -34,7 +39,9 @@ let getStarters (tiles : tiles) : List<(coord*char)*(coord)> =
                 //debugPrint("horizontel FIRST FALSE\n")
                 acc 
         ) [] tiles
-    //debugPrint(sprintf "\nhorizontel LIST is %A\n" horizontel)
+    debugPrint("\n8888888888888888888888888888888888888888\n")
+    debugPrint(sprintf "horizontel LIST is %A\n" horizontel)
+    debugPrint("8888888888888888888888888888888888888888\n")
     //debugPrint(sprintf "\nlasthorizontel LIST is %A\n" lasthorizontel)
 
     //debugPrint(sprintf "Looking at cord %A and char %A\n" coord c) 
@@ -48,7 +55,12 @@ let getStarters (tiles : tiles) : List<(coord*char)*(coord)> =
                     match checkDownDirection (x2,y2+1) tiles down with
                     |true -> 
                         //debugPrint("horizontel SECOND TRUE\n")
-                         (((x2,y2), char1), down)::acc1
+                         match checkDownLeftDirection (x2,y2) tiles downLeft with
+                            |true -> 
+                                //debugPrint("horizontel SECOND TRUE\n")
+                                (((x2,y2), char1), down)::acc1
+                            |false -> 
+                                acc1
                     |false -> 
                         acc1
                 |false ->
@@ -58,7 +70,9 @@ let getStarters (tiles : tiles) : List<(coord*char)*(coord)> =
                 //debugPrint("vetical FIRST FALSE\n")
                 acc1
         ) [] tiles
-    //debugPrint(sprintf "\nvetical LIST is %A\n\n" vetical)
+    debugPrint("\n8888888888888888888888888888888888888888\n")
+    debugPrint(sprintf "vetical LIST is %A\n" vetical)
+    debugPrint("8888888888888888888888888888888888888888\n")
     //debugPrint(sprintf "\nlastvetical LIST is %A\n" lastvetical)
     horizontel@vetical
 
@@ -111,7 +125,16 @@ let findFirstWord (my : hand) (d : dict) ((dx,dy) : coord) (startOfWord : List<c
 
         //debugPrint("Calling aux\n")
         //debugPrint(sprintf "********currentWord is %A\n" currentWord)
-        List.fold(fun (wordSoFar : List<coord * (uint32 * (char * int))>) (currentChar : uint32) -> 
+        List.fold(fun (wordSoFar : List<coord * (uint32 * (char * int))>) (currentChar : uint32) ->
+            let newCoord = 
+                        if(currentWord.IsEmpty) 
+                        then 
+                        //Maybe change
+                            (0,0)
+                        else 
+                            ((fst (fst (List.head currentWord))) + dx), ((snd (fst (List.head currentWord))) + dy)
+            
+
             match Dictionary.step (uintToChar currentChar) currentDict with 
                 | None -> 
                     //debugPrint(sprintf "None \n")
@@ -119,13 +142,7 @@ let findFirstWord (my : hand) (d : dict) ((dx,dy) : coord) (startOfWord : List<c
                     wordSoFar //wordSoFar
                 | Some (b, d') ->
                     //debugPrint(sprintf "currentChar is %A\n" (uintToChar currentChar))
-                    let newCoord = 
-                        if(currentWord.IsEmpty) 
-                        then 
-                        //Maybe change
-                            (0,0)
-                        else 
-                            ((fst (fst (List.head currentWord))) + dx), ((snd (fst (List.head currentWord))) + dy)
+                    
 
                     let newhand = MultiSet.removeSingle currentChar currentHand 
                     //debugPrint(sprintf "newhand is %A \n" newhand)
@@ -155,9 +172,9 @@ let findFirstWord (my : hand) (d : dict) ((dx,dy) : coord) (startOfWord : List<c
 let continueWord (my : hand) (d : dict) (startPositions :  List<(coord*char)*coord>) : List<coord * (uint32 * (char * int))> =
     //debugPrint("calling continueWord aux\n")
     let startPos =(List.rev startPositions)
-    debugPrint(sprintf "*****************************")
-    debugPrint(sprintf "\nOur hand is %A\n" my)
-    debugPrint(sprintf "*****************************")
+    debugPrint(sprintf "\n*****************************\n")
+    debugPrint(sprintf "******** Our hand is %A\n" my)
+    debugPrint(sprintf "*****************************\n")
     //debugPrint(sprintf "startPos are %A\n" startPos)
     if (startPositions.IsEmpty)
     then 
@@ -177,11 +194,12 @@ let continueWord (my : hand) (d : dict) (startPositions :  List<(coord*char)*coo
                 | Some (_,d') -> 
                     //debugPrint(sprintf "findingFirstWord\n")
                     let startLetter : List<coord * (uint32 * (char * int))> = [(coord, ((charToInteger char),(char, (charToPoint (charToInteger char)))))]
+                    debugPrint(sprintf "\nstartLetter is %A\n" startLetter) 
                     let result = findFirstWord currentHand d' dir startLetter
-                    debugPrint(sprintf "\n\nresult is %A\n\n" result) 
+                    debugPrint(sprintf "\nresult is %A\n\n" result) 
                     //debugPrint(sprintf "result is %A\n" result)
                     let word = result.[0..result.Length-2]
-                    debugPrint(sprintf "\n\nword is %A\n\n" word)
+                    debugPrint(sprintf "\nword is %A\n\n" word)
                     if (result.Length > word.Length)
                     then
                         debugPrint("inside first if\n") 

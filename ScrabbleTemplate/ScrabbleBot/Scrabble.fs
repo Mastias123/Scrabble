@@ -108,7 +108,8 @@ module Scrabble =
             // else debugPrint("---------------It's not my turn to play------------------\n")
             
               
-                
+            //if(st.myTurn) 
+            //then     
             debugPrint("***************Now it's my turn to play**************\n") 
             //Print.printHand pieces (State.hand st)
             //let testHand = MultiSet.addSingle 1u MultiSet.empty |> MultiSet.addSingle 16u |> MultiSet.addSingle 5u
@@ -137,13 +138,25 @@ module Scrabble =
             
             debugPrint (sprintf "Player %d -> Server:\n%A\n" (State.playerNumber st) move) // keep the debug lines. They are useful.
             //send cstream (SMPlay move)
-            send cstream (SMPlay move)
-            debugPrint (sprintf "Player %d <- Server:\n%A\n" (State.playerNumber st) move)
             
-        
-            // remove the force print when you move on from manual input (or when you have learnt the format)
+
+            if (List.length placeMove = 0 && MultiSet.size st.hand = 7u) then 
+                debugPrint("################## CHANGING HAND ##################\n")
+                send cstream (SMChange (MultiSet.toList st.hand))
+            elif(List.length placeMove = 0 && MultiSet.size st.hand < 7u) then
+                debugPrint("################## PASSING TURN ##################\n")
+                send cstream (SMPass)
+            else 
+                send cstream (SMPlay move)
+            
+
+            debugPrint (sprintf "Player %d <- Server:\n%A\n" (State.playerNumber st) move)
+            //else debugPrint("---------------It's not my turn to play------------------\n")
+            
+                // remove the force print when you move on from manual input (or when you have learnt the format)
             let msg = recv cstream
-           // keep the debug lines. They are useful.
+            
+            // keep the debug lines. They are useful.
             match msg with
             | RCM (CMPlaySuccess(piecesPlaced, points, newPieces)) ->
                 (* Successful play by you. Update your state (remove old tiles, add the new ones, change turn, etc) *)
@@ -164,7 +177,7 @@ module Scrabble =
                 debugPrint(sprintf "newTiles %A\n" newTiles)
                 //får moves, får tiles
                 debugPrint(sprintf "calling getStarters wiht %A\n" (getStarters newTiles))
-                               
+                            
                 let st' = State.mkState 
                                 st.board 
                                 st.dict 
@@ -175,12 +188,12 @@ module Scrabble =
 
                 debugPrint("!!!!!!!!!!I have played a succesful move!!!!!!!!!!\n") // Th
                 aux st'
+                    
                 
             | RCM (CMPlayed (pid, ms, points)) ->
                 (* Successful play by other player. Update your state *)
                 // update tiles
                 let newTiles = updateTiles ms st.tiles
-                
                 let st' = State.mkState 
                             st.board 
                             st.dict 
