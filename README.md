@@ -1,7 +1,7 @@
 # Scrabble
 ## To run this program run the following commands
 
-**Run Project:**
+**Run Project**
 Run the following command in the root directory:
 
 
