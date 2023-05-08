@@ -34,6 +34,8 @@ module internal HelperFunctions =
                     //debugPrint(sprintf "tile is empty at coord: %A\n" coordinate) 
                     true
 
+    let checkIsOccupied ((x,y) : coord) (tiles : tiles) (dx, dy) : bool =
+        (checkIfTileIsEmpty (x+dx, y+dy) tiles = false && checkIfTileIsEmpty (x-dx, y-dy) tiles = false) 
 
     let checkDirection ((x,y) : coord) (tiles : tiles) (dx, dy) : bool =
         //debugPrint(sprintf "checking direction at %A\n" (x,y))

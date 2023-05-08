@@ -12,11 +12,9 @@ module internal OurTurn =
 //Functionen skal returnere en liste alle start positioner som man kan spille et ord på
 //Function below will check if the coordinates to the left and right are available on the board so we can play a word and return a list of start positions
 let getStarters (tiles : tiles) : List<(coord*char)*(coord)> = 
-
     //debugPrint(sprintf"tiles are %A\n" tiles)
     let horizontel = //fold has to return the tiles aand direction. Lis<(coord*char)*coord is the char and the direction
         Map.fold(fun acc coord c -> 
-            //debugPrint(sprintf "Looking at cord %A and char %A\n" coord c)
             match checkDirection coord tiles right with
             | true -> 
                 //debugPrint("True\n")
@@ -24,8 +22,10 @@ let getStarters (tiles : tiles) : List<(coord*char)*(coord)> =
             | false -> 
                 //debugPrint("True\n")
                 acc
-        ) [] tiles
-    
+            ) [] tiles
+
+
+            //debugPrint(sprintf "Looking at cord %A and char %A\n" coord c) 
     let vetical =
         Map.fold(fun acc1 coord1 char1 -> 
             match checkDirection coord1 tiles down with 
@@ -57,43 +57,37 @@ let getRandomStartLetter list =
 //Men vi har problemer med at starte med at steppe ud fra en af startPositionerne efter et ord er blevet lagt.
 //Lige nu stepperen først med hele listen af startPositioner, men den skal kun gøre det udfra et af elementerne fra startPositionerne så vi kan bygge ordet.
 
-let findFirstWord (my : hand) (d : dict) ((x,y) : coord) ((dx,dy) : coord) (startPositions :List<(coord*char)*(coord)>) : List<coord * (uint32 * (char * int))> =   
-    debugPrint(sprintf "startPositions are %A\n\n" startPositions)
-    let startLetters  =
-        List.fold (fun acc ((tempCoord, tempChar), _) -> 
-            match Dictionary.step tempChar d with 
-                | None -> acc
-                | Some (b, _) -> 
-                    if(b)
-                    then
-                        acc
-                    else 
-                        let pointOfFirstLetter = charToPoint (charToInteger tempChar)
-                        let newStartLetter = (tempCoord,((charToInteger tempChar), (tempChar, pointOfFirstLetter)))::acc
-                        debugPrint(sprintf "newStartLetter is %A \n" newStartLetter)
-                        newStartLetter                       
-        ) [] startPositions
+
+// let startLetters (startPositions :List<(coord*char)*(coord)>) =
+//         List.fold (fun acc ((tempCoord, tempChar), _) -> 
+//             match Dictionary.step tempChar d with 
+//                 | None -> acc
+//                 | Some (b, _) -> 
+//                     if(b)
+//                     then
+//                         acc
+//                     else 
+//                         let pointOfFirstLetter = charToPoint (charToInteger tempChar)
+//                         let newStartLetter = (tempCoord,((charToInteger tempChar), (tempChar, pointOfFirstLetter)))::acc
+//                         debugPrint(sprintf "newStartLetter is %A \n" newStartLetter)
+//                         newStartLetter                       
+//     ) [] startPositions
     
     //let startElement = List.head startLetters  
-
-    //debugPrint(sprintf "**** startLetter is = %A\n" startLetter)
-    debugPrint(sprintf "coordinate is = %A\n" (x,y))
-    debugPrint(sprintf "direction is = %A\n" (dx,dy))
     
+    //Skulle den  retunere en Liste af en liste
 
-    let rec aux (currentHand : hand) (currentDict : dict) (currentWord : List<coord * (uint32 * (char * int))>) : List<coord * (uint32 * (char * int))>  = //currentWord er startListen
+
+let findFirstWord (my : hand) (d : dict) ((dx,dy) : coord) (startOfWord : List<coord * (uint32 * (char * int))>) : List<coord * (uint32 * (char * int))> = 
+    let rec aux (currentHand : hand) (currentDict : dict) (currentWord : List<coord * (uint32 * (char * int))>) : List<coord * (uint32 * (char * int))>  = 
+        //debugPrint("Inside findFirstWord aux\n")
+    //currentWord er startListen
         //debugPrint("calling aux\n")
             // | H | E | J |
             // |   |   | E |
             // |   |   | G |
             // CurrentWord = [J,..]
-        let newCoord = 
-            if(currentWord.IsEmpty) 
-            then 
-            //Maybe change
-                (0,0)
-            else 
-                ((fst (fst (List.head currentWord))) + dx), ((snd (fst (List.head currentWord))) + dy)
+        
         //debugPrint("Calling aux\n")
         //debugPrint(sprintf "********currentWord is %A\n" currentWord)
         List.fold(fun (wordSoFar : List<coord * (uint32 * (char * int))>) (currentChar : uint32) -> 
@@ -104,7 +98,15 @@ let findFirstWord (my : hand) (d : dict) ((x,y) : coord) ((dx,dy) : coord) (star
                     wordSoFar //wordSoFar
                 | Some (b, d') ->
                     //debugPrint(sprintf "currentChar is %A\n" (uintToChar currentChar))
-            
+                    let newCoord = 
+                        if(currentWord.IsEmpty) 
+                        then 
+                        //Maybe change
+                            debugPrint("currentWord is empty\n\n")
+                            (0,0)
+                        else 
+                            ((fst (fst (List.head currentWord))) + dx), ((snd (fst (List.head currentWord))) + dy)
+
                     let newhand = MultiSet.removeSingle currentChar currentHand 
                     //debugPrint(sprintf "newhand is %A \n" newhand)
                     
@@ -128,7 +130,42 @@ let findFirstWord (my : hand) (d : dict) ((x,y) : coord) ((dx,dy) : coord) (star
                         wordSoFar
                                                   
         ) [] (MultiSet.toList currentHand) 
-    aux my d startLetters
+    aux my d startOfWord
+
+let continueWord (my : hand) (d : dict) (startPositions :  List<(coord*char)*coord>) : List<coord * (uint32 * (char * int))> =
+    debugPrint(sprintf "startPositions are %A\n" startPositions)
+    let startPos = List.rev startPositions
+    //debugPrint("calling continueWord aux\n")
+    if (startPositions.IsEmpty)
+    then 
+        findFirstWord my d (1,0) [] 
+    else
+        let rec aux (currentHand : hand) (currentDict : dict)= 
+            List.fold (fun (wordSoFar : List<coord * (uint32 * (char * int))>) ((coord,char), dir) ->
+                //debugPrint(sprintf "current char is %A\n" char)
+                //debugPrint("calling continueWord fold\n")
+                //let startLetter = ((coord),((charToInteger (char)), ((char), (char)))) 
+                match Dictionary.step char currentDict with 
+                | None ->
+                    wordSoFar
+                | Some (_,d') -> 
+                    //debugPrint(sprintf "findingFirstWord\n")
+                    let startLetter : List<coord * (uint32 * (char * int))> = [(coord, ((charToInteger char),(char, (charToPoint (charToInteger char)))))]
+                    let result = findFirstWord currentHand d' dir startLetter
+                    debugPrint(sprintf "result is %A\n" result)
+                    let word = result.[0..result.Length-2]
+                    debugPrint(sprintf "word is %A\n\n" word)
+                    word
+            ) [] startPos //stepper på startPositions
+        aux my d
+
+    //Lav  først en ny liste
+    //det vi får i findFirstWord giver vi vores accumulator
+    //fold over startPositions
+    //for hvert af dem skal vi steppe på bogstavet
+    //der skal vi bruge  det dictionary vi får til findfirstWord
+
+    //Den list vi får fra findFirstWordSkal vi gemme et nyt sted
     
 let placeOnBoard (word : List<coord * (uint32 * (char * int))>) : List<(coord) * (uint32 * (char * int))> =
     debugPrint("call placeOnBoard \n")

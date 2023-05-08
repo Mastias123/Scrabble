@@ -118,7 +118,7 @@ module Scrabble =
             //debugPrint(sprintf "calling getStarters wiht %A\n" (getStarters st.tiles))
             let startPosAndDir = getRandomStartPosition st.tiles
 
-            let move2 = findFirstWord st.hand st.dict (fst startPosAndDir) (snd startPosAndDir) (getStarters st.tiles)
+            let move2 = continueWord st.hand st.dict (getStarters st.tiles)
             debugPrint (sprintf "***output from findFistWord call***  %A\n" move2)
             //let position = (getRandomStartPosition st.tiles)
             let placeMove = placeOnBoard move2 
