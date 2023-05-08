@@ -1,11 +1,9 @@
 # Scrabble
-To run this program run the following commands
-Mac Command:
-dotnet run --project .\ScrabbleTemplate\ScrabbleTemplate\
+## To run this program run the following commands
 
-Windows Command:
+**Run Project:**
 dotnet run --project ./ScrabbleTemplate/ScrabbleTemplate/
 
-Steps we have completed
+##  Steps we have completed
 - Multi-player and dictionary (using a trie)
 
