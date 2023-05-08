@@ -85,7 +85,7 @@ module Scrabble =
                     //debugPrint(sprintf "calling getStarters wiht %A\n" (getStarters st.tiles))
                     debugPrint(sprintf "--------------------------------------------\n")
                     debugPrint (sprintf "ST.TILES IS %A\n" st.tiles)
-                    debugPrint(sprintf "--------------------------------------------\n")
+                    debugPrint(sprintf "--------------------------------------------\n\n")
                     debugPrint(sprintf "ooooooooooooooooooooooooooooooooooooooooooooo\n")
                     debugPrint (sprintf "GETSTARTERS IS %A\n" (getStarters st.tiles))
                     debugPrint(sprintf "ooooooooooooooooooooooooooooooooooooooooooooo\n")
@@ -106,13 +106,16 @@ module Scrabble =
                     //send cstream (SMPlay move)
                     
 
-                    if (List.length placeMove = 0 && MultiSet.size st.hand = 7u) then 
-                        debugPrint("################## CHANGING HAND ##################\n")
-                        send cstream (SMChange (MultiSet.toList st.hand))
-                    elif(List.length placeMove = 0 && MultiSet.size st.hand < 7u) then
-                        debugPrint("################## PASSING TURN CANNOT PLACE WORDS ##################\n")
+                    // if (List.length placeMove = 0 && MultiSet.size st.hand = 7u) then 
+                    //     debugPrint("################## CHANGING HAND ##################\n")
+                    //     send cstream (SMChange (MultiSet.toList st.hand))
+
+                    if(List.length placeMove = 0 && MultiSet.size st.hand < 7u) then
+                        debugPrint(sprintf "################## PASSING TURN  PLAYER %A CANNOT PLACE WORDS ##################\n" st.playerNumber)
                         send cstream (SMPass)
-                    else 
+                        //send cstream (SMPlay move)
+                        
+                    else
                         send cstream (SMPlay move)
                     
 
@@ -203,13 +206,33 @@ module Scrabble =
                                     st.tiles
                         debugPrint "xxxxxxxxxx They have failed a move\n"
                         aux st'
+            | RCM (CMForfeit _) ->
+                debugPrint(sprintf "Player %A has forfeit\n" st.playerNumber)
+                let newNumberOfPlayers = st.numOfPlayers - 1u
+                let st' = State.mkState 
+                                    st.board 
+                                    st.dict 
+                                    st.playerNumber 
+                                    st.hand 
+                                    newNumberOfPlayers
+                                    nextPlayer 
+                                    st.tiles
+                aux st'
             
             | RCM (CMGameOver _) -> ()
-            
-            | RCM a -> failwith (sprintf "not implmented: %A" a)
+
+            | RCM a  -> 
+                let st' = State.mkState 
+                                    st.board 
+                                    st.dict 
+                                    st.playerNumber 
+                                    st.hand 
+                                    st.numOfPlayers
+                                    nextPlayer 
+                                    st.tiles
+                aux st'
             | RGPE err -> printfn "Gameplay Error:\n%A" err; aux st
            
-
         aux st
 
     let startGame 
