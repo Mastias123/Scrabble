@@ -34,9 +34,9 @@ let getStarters (tiles : tiles) : List<(coord*char)*(coord)> =
                 //debugPrint("horizontel FIRST FALSE\n")
                 acc 
         ) [] tiles
-    debugPrint("8888888888888888888888888888888888888888\n")
-    debugPrint(sprintf "horizontel LIST is %A\n" horizontel)
-    debugPrint("8888888888888888888888888888888888888888\n")
+    // debugPrint("8888888888888888888888888888888888888888\n")
+    // debugPrint(sprintf "horizontel LIST is %A\n" horizontel)
+    // debugPrint("8888888888888888888888888888888888888888\n")
     //debugPrint(sprintf "\nlasthorizontel LIST is %A\n" lasthorizontel)
 
     //debugPrint(sprintf "Looking at cord %A and char %A\n" coord c) 
@@ -65,9 +65,9 @@ let getStarters (tiles : tiles) : List<(coord*char)*(coord)> =
                 //debugPrint("vetical FIRST FALSE\n")
                 acc1
         ) [] tiles
-    debugPrint("8888888888888888888888888888888888888888\n")
-    debugPrint(sprintf "vetical LIST is %A\n" vetical)
-    debugPrint("8888888888888888888888888888888888888888\n")
+    // debugPrint("8888888888888888888888888888888888888888\n")
+    // debugPrint(sprintf "vetical LIST is %A\n" vetical)
+    // debugPrint("8888888888888888888888888888888888888888\n")
     //debugPrint(sprintf "\nlastvetical LIST is %A\n" lastvetical)
     horizontel@vetical
 
@@ -227,16 +227,7 @@ let continueWord (my : hand) (d : dict) (startPositions :  List<(coord*char)*coo
             ) [] startPos //stepper på startPositions
         aux my d
 
-    //Lav  først en ny liste
-    //det vi får i findFirstWord giver vi vores accumulator
-    //fold over startPositions
-    //for hvert af dem skal vi steppe på bogstavet
-    //der skal vi bruge  det dictionary vi får til findfirstWord
-
-    //Den list vi får fra findFirstWordSkal vi gemme et nyt sted
-    
 let placeOnBoard (word : List<coord * (uint32 * (char * int))>) : List<(coord) * (uint32 * (char * int))> =
-    //debugPrint("call placeOnBoard \n")
     word
  
  
