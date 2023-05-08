@@ -12,26 +12,54 @@ module internal OurTurn =
 //Functionen skal returnere en liste alle start positioner som man kan spille et ord på
 //Function below will check if the coordinates to the left and right are available on the board so we can play a word and return a list of start positions
 let getStarters (tiles : tiles) : List<(coord*char)*(coord)> = 
+
     //debugPrint(sprintf"tiles are %A\n" tiles)
     let horizontel = //fold has to return the tiles aand direction. Lis<(coord*char)*coord is the char and the direction
-        Map.fold(fun acc coord c -> 
-            match checkDirection coord tiles right with
-            | true -> 
-                //debugPrint("True\n")
-                ((coord, c), right)::acc
-            | false -> 
-                //debugPrint("True\n")
-                acc
-            ) [] tiles
-
-
-            //debugPrint(sprintf "Looking at cord %A and char %A\n" coord c) 
-    let vetical =
-        Map.fold(fun acc1 coord1 char1 -> 
-            match checkDirection coord1 tiles down with 
-            | true -> ((coord1, char1), down)::acc1
-            | false -> acc1
+        Map.fold(fun acc (x,y) c -> 
+            match checkDirection (x,y) tiles right with
+            | true ->  
+                //debugPrint("horizontel FIRST TRUE\n")
+                match checkRightDirection (x+1,y) tiles right with
+                |true -> 
+                    match checkDownDirection (x+1,y ) tiles down with
+                    |true -> 
+                        //debugPrint("horizontel SECOND TRUE\n")
+                        (((x,y), c), right)::acc 
+                    |false -> 
+                        acc
+                |false ->
+                    //debugPrint("horizontel SECOND FALSE\n") 
+                    acc  
+            | false ->  
+                //debugPrint("horizontel FIRST FALSE\n")
+                acc 
         ) [] tiles
+    //debugPrint(sprintf "\nhorizontel LIST is %A\n" horizontel)
+    //debugPrint(sprintf "\nlasthorizontel LIST is %A\n" lasthorizontel)
+
+    //debugPrint(sprintf "Looking at cord %A and char %A\n" coord c) 
+    let vetical =
+        Map.fold(fun acc1 (x2,y2) char1 -> 
+            match checkDirection (x2,y2) tiles down with 
+            | true -> 
+                //debugPrint("vetical FIRST TRUE\n")
+                match checkRightDirection (x2,y2+1) tiles right with
+                |true -> 
+                    match checkDownDirection (x2,y2+1) tiles down with
+                    |true -> 
+                        //debugPrint("horizontel SECOND TRUE\n")
+                         (((x2,y2), char1), down)::acc1
+                    |false -> 
+                        acc1
+                |false ->
+                    //debugPrint("horizontel SECOND FALSE\n") 
+                    acc1  
+            | false -> 
+                //debugPrint("vetical FIRST FALSE\n")
+                acc1
+        ) [] tiles
+    //debugPrint(sprintf "\nvetical LIST is %A\n\n" vetical)
+    //debugPrint(sprintf "\nlastvetical LIST is %A\n" lastvetical)
     horizontel@vetical
 
 
@@ -46,7 +74,7 @@ let getRandomStartPosition tiles : coord*coord=
             List.fold (fun acc ((coord, _), dir) -> (coord,dir)::acc) [] starters  
         let randomNumber = System.Random()
         let newStartPosAndDir = newStarters.[randomNumber.Next(0, newStarters.Length)]
-        debugPrint(sprintf"newStartPos = %A\n" newStartPosAndDir)
+        //debugPrint(sprintf"newStartPos = %A\n" newStartPosAndDir)
         newStartPosAndDir
 let getRandomStartLetter list =
         let rnd = System.Random()
@@ -80,14 +108,7 @@ let getRandomStartLetter list =
 
 let findFirstWord (my : hand) (d : dict) ((dx,dy) : coord) (startOfWord : List<coord * (uint32 * (char * int))>) : List<coord * (uint32 * (char * int))> = 
     let rec aux (currentHand : hand) (currentDict : dict) (currentWord : List<coord * (uint32 * (char * int))>) : List<coord * (uint32 * (char * int))>  = 
-        //debugPrint("Inside findFirstWord aux\n")
-    //currentWord er startListen
-        //debugPrint("calling aux\n")
-            // | H | E | J |
-            // |   |   | E |
-            // |   |   | G |
-            // CurrentWord = [J,..]
-        
+
         //debugPrint("Calling aux\n")
         //debugPrint(sprintf "********currentWord is %A\n" currentWord)
         List.fold(fun (wordSoFar : List<coord * (uint32 * (char * int))>) (currentChar : uint32) -> 
@@ -102,7 +123,6 @@ let findFirstWord (my : hand) (d : dict) ((dx,dy) : coord) (startOfWord : List<c
                         if(currentWord.IsEmpty) 
                         then 
                         //Maybe change
-                            debugPrint("currentWord is empty\n\n")
                             (0,0)
                         else 
                             ((fst (fst (List.head currentWord))) + dx), ((snd (fst (List.head currentWord))) + dy)
@@ -133,18 +153,24 @@ let findFirstWord (my : hand) (d : dict) ((dx,dy) : coord) (startOfWord : List<c
     aux my d startOfWord
 
 let continueWord (my : hand) (d : dict) (startPositions :  List<(coord*char)*coord>) : List<coord * (uint32 * (char * int))> =
-    debugPrint(sprintf "startPositions are %A\n" startPositions)
-    let startPos = List.rev startPositions
     //debugPrint("calling continueWord aux\n")
+    let startPos =(List.rev startPositions)
+    debugPrint(sprintf "*****************************")
+    debugPrint(sprintf "\nOur hand is %A\n" my)
+    debugPrint(sprintf "*****************************")
+    //debugPrint(sprintf "startPos are %A\n" startPos)
     if (startPositions.IsEmpty)
     then 
         findFirstWord my d (1,0) [] 
     else
-        let rec aux (currentHand : hand) (currentDict : dict)= 
+        
+        let rec aux (currentHand : hand) (currentDict : dict)  : List<coord * (uint32 * (char * int))>= 
             List.fold (fun (wordSoFar : List<coord * (uint32 * (char * int))>) ((coord,char), dir) ->
                 //debugPrint(sprintf "current char is %A\n" char)
                 //debugPrint("calling continueWord fold\n")
                 //let startLetter = ((coord),((charToInteger (char)), ((char), (char)))) 
+              
+            
                 match Dictionary.step char currentDict with 
                 | None ->
                     wordSoFar
@@ -152,10 +178,22 @@ let continueWord (my : hand) (d : dict) (startPositions :  List<(coord*char)*coo
                     //debugPrint(sprintf "findingFirstWord\n")
                     let startLetter : List<coord * (uint32 * (char * int))> = [(coord, ((charToInteger char),(char, (charToPoint (charToInteger char)))))]
                     let result = findFirstWord currentHand d' dir startLetter
-                    debugPrint(sprintf "result is %A\n" result)
+                    debugPrint(sprintf "\n\nresult is %A\n\n" result) 
+                    //debugPrint(sprintf "result is %A\n" result)
                     let word = result.[0..result.Length-2]
-                    debugPrint(sprintf "word is %A\n\n" word)
-                    word
+                    debugPrint(sprintf "\n\nword is %A\n\n" word)
+                    if (result.Length > word.Length)
+                    then
+                        debugPrint("inside first if\n") 
+                        word
+                    elif (result.IsEmpty) then
+                        debugPrint("inside second if\n") 
+                        debugPrint(sprintf "wordSoFar is %A\n" wordSoFar) 
+                        wordSoFar
+                    else
+                        debugPrint("inside third second if\n") 
+                        word
+                    
             ) [] startPos //stepper på startPositions
         aux my d
 
@@ -168,7 +206,7 @@ let continueWord (my : hand) (d : dict) (startPositions :  List<(coord*char)*coo
     //Den list vi får fra findFirstWordSkal vi gemme et nyt sted
     
 let placeOnBoard (word : List<coord * (uint32 * (char * int))>) : List<(coord) * (uint32 * (char * int))> =
-    debugPrint("call placeOnBoard \n")
+    //debugPrint("call placeOnBoard \n")
     word
     // let rec aux (word' : List<coord * (uint32 * (char * int))>) acc =
     //     match word' with
@@ -195,7 +233,3 @@ let placeOnBoard (word : List<coord * (uint32 * (char * int))>) : List<(coord) *
 //             aux word' (x+dx, y+dy) (((x,y), (charToInteger char, (char, pointOfFirstLetter)))::acc)
 //             //aux word' (x+dx, y+dy) (((x,y), (charToInteger char, (firstLetter, pointOfFirstLetter)))::acc)
 //     aux word coordinate []
-
-
-    
-        

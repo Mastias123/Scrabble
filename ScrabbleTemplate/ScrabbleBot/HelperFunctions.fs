@@ -34,12 +34,24 @@ module internal HelperFunctions =
                     //debugPrint(sprintf "tile is empty at coord: %A\n" coordinate) 
                     true
 
-    let checkIsOccupied ((x,y) : coord) (tiles : tiles) (dx, dy) : bool =
-        (checkIfTileIsEmpty (x+dx, y+dy) tiles = false && checkIfTileIsEmpty (x-dx, y-dy) tiles = false) 
+    let checkIsOccupied (coordinate : coord) (tiles : tiles) : bool =
+        match Map.tryFind coordinate tiles with 
+        | Some (_) -> true
+        | None -> false
+    let checkRightDirection ((x,y) : coord) (tiles : tiles) (dx, dy) : bool = 
+        let emptyResult = checkIfTileIsEmpty (x+dx, y+dy) tiles
+        emptyResult
 
+    let checkDownDirection ((x,y) : coord) (tiles : tiles) (dx, dy) : bool = 
+        let emptyResult = checkIfTileIsEmpty (x+dx, y+dy) tiles
+        emptyResult
     let checkDirection ((x,y) : coord) (tiles : tiles) (dx, dy) : bool =
         //debugPrint(sprintf "checking direction at %A\n" (x,y))
-        checkIfTileIsEmpty (x+dx, y+dy) tiles && checkIfTileIsEmpty (x-dx, y-dy) tiles //we look to the right and the left
+        let emptyResult = checkIfTileIsEmpty (x+dx, y+dy) tiles && checkIfTileIsEmpty (x-dx, y-dy) tiles
+        //let notEmptyResult = checkIsOccupied (x+dx, y-dy) tiles
+        emptyResult
+        //we look to the right and the left
     
+    //checkIsOccupied (x+dx, y+dy) tiles && 
 
     

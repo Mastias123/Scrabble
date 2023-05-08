@@ -14,7 +14,6 @@ module internal Types =
     type dict = Dictionary.Dict
 
     let right = (1,0) : coord
-    let left = (-1,0) : coord
     let down = (0,1) : coord
-    let up = (0,-1) : coord
+
     
