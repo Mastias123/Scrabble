@@ -124,7 +124,7 @@ module Scrabble =
                     debugPrint("----------------------Its not my my turn to play----------------------\n") 
             
               
-            let nextPlayer = (st.playerTurn)%(st.numOfPlayers) + (uint32) 1
+            let switchPlayer = (st.playerTurn)%(st.numOfPlayers) + (uint32) 1
             let msg = recv cstream
             
             // keep the debug lines. They are useful.
@@ -155,7 +155,7 @@ module Scrabble =
                                 st.playerNumber 
                                 updateHand 
                                 st.numOfPlayers
-                                nextPlayer
+                                switchPlayer
                                 newTiles
 
                 debugPrint("!!!!!!!!!!I have played a succesful move!!!!!!!!!!\n") // Th
@@ -173,7 +173,7 @@ module Scrabble =
                             st.playerNumber 
                             st.hand 
                             st.numOfPlayers
-                            nextPlayer
+                            switchPlayer
                             newTiles // This state needs to be updated
                 debugPrint("??????????They have played a succesful move????????????\n")
                 aux st'
@@ -190,7 +190,7 @@ module Scrabble =
                                     st.playerNumber 
                                     st.hand 
                                     st.numOfPlayers
-                                    nextPlayer 
+                                    switchPlayer 
                                     newTiles
                         debugPrint("xxxxxxxxx You have failed a move\n")
                         aux st'
@@ -202,7 +202,7 @@ module Scrabble =
                                     st.playerNumber 
                                     st.hand 
                                     st.numOfPlayers
-                                    nextPlayer 
+                                    switchPlayer 
                                     st.tiles
                         debugPrint "xxxxxxxxxx They have failed a move\n"
                         aux st'
@@ -215,7 +215,7 @@ module Scrabble =
                                     st.playerNumber 
                                     st.hand 
                                     newNumberOfPlayers
-                                    nextPlayer 
+                                    switchPlayer 
                                     st.tiles
                 aux st'
             
@@ -228,7 +228,7 @@ module Scrabble =
                                     st.playerNumber 
                                     st.hand 
                                     st.numOfPlayers
-                                    nextPlayer 
+                                    switchPlayer 
                                     st.tiles
                 aux st'
             | RGPE err -> printfn "Gameplay Error:\n%A" err; aux st
